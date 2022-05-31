@@ -1,1 +1,1760 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700;800;900&display=swap");
 
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Montserrat", sans-serif;
+  margin: 0;
+  /* height: 100vh; */
+  background-color: #f2f4f8 !important;
+}
+.pageContainer {
+  margin: 3rem;
+}
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.pageHeader {
+  font-size: 2rem;
+  font-weight: 800;
+}
+.landing-page-paragraf{
+  font-size: 1.7rem;
+  font-weight: 550;
+}
+.title {
+  font-size: 28px;
+  font-weight: bold;
+}
+.title span {
+  position: relative;
+}
+.title span::after {
+  content: "";
+  position: absolute;
+  transform: scaleX(0);
+  width: 100%;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #999;
+  transition: transform 0.25s ease-out;
+  transform-origin: bottom right;
+}
+.title span:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background-color: #f2f4f8;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 15px;
+  background-color: #999;
+}
+
+/* NAVBAR */
+.nav-footer {
+  position: fixed;
+  bottom: 0%;
+  left: 0%;
+  right: 0%;
+  height: 80px;
+  background-color: #fff;
+  z-index: 1000 !important;
+}
+.navItems {
+  height: 100%;
+  padding: 0%;
+  margin: 0%;
+  display: flex;
+  list-style-type: none;
+}
+.navItems li {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: rgb(150, 147, 147);
+}
+li.active {
+  color: black;
+}
+.navItems li i {
+  font-size: 30px;
+  cursor: pointer;
+
+  margin-bottom: 5px;
+}
+.text {
+  font-family: inherit;
+}
+.landingPageContainer {
+  overflow: hidden;
+}
+/* LANDING PAGE */
+.landing-category {
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  grid-template-rows: minmax(100px, max-content)
+                        45%;
+  grid-gap: 10px;
+  overflow: hidden;
+}
+.category{
+}
+.category img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 40px;
+  cursor: pointer;
+}
+.category-title {
+  font-size: 1.5rem;
+  font-weight: 450;
+  text-align: center;
+}
+
+/* SIGN UP form */
+form label {
+  width: 100%;
+  margin-top: 5px;
+}
+.btn-center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 35%;
+  font-size: 20px;
+}
+.forgotPassword {
+  display: block;
+  text-align: right;
+  margin-bottom: 30px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #007bff;
+  cursor: pointer;
+  text-decoration: none;
+}
+header p a {
+  color: #007bff;
+  font-weight: bold;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: none;
+  color: #007bff;
+}
+.signWithGoogle {
+  margin-top: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #007bff;
+  font-weight: 700;
+  font-size: 18px;
+}
+.icon {
+  background-color: #fff;
+  border-radius: 50%;
+  padding: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+.showHidePassword {
+  position: relative;
+  cursor: pointer;
+}
+.showHidePassword i {
+  position: absolute;
+  top: 50%;
+  right: 2%;
+  transform: translateY(-50%);
+  font-size: 26px;
+}
+/* SPINNER COMPONENT*/
+.loadingSpinnerContainer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 5000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loadingSpinner {
+  width: 64px;
+  height: 64px;
+  border: 8px solid;
+  border-color: #00cc66 transparent #00cc66 transparent;
+  border-radius: 50%;
+  animation: spin 1.2s linear infinite;
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+/* PONUDE PAGE */
+.offerPageContainer {
+  margin: 1rem;
+}
+.offerTrueListings {
+  margin-top: 30px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-auto-rows: minmax(200px, 1fr);
+  grid-gap: 10px;
+}
+.offerTrueListings .listingItemImg {
+  width: 70%;
+}
+.offerTrueListings .listingMoreInfo li {
+  width: 100%;
+}
+
+/* PROFILE PAGE */
+.profileContainer {
+  margin: 3rem;
+  padding-bottom: 80px;
+}
+.profileInfo {
+  width: 75%;
+}
+.profileHeader {
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+  margin-top: 25px;
+}
+.profileHeader p {
+  color: #000;
+  font-weight: 700;
+}
+.logout,
+.go-back {
+  display: flex;
+  align-items: center;
+  color: #007bff;
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0px;
+  cursor: pointer;
+}
+.logout i,
+.go-back i {
+  margin-left: 8px;
+}
+.change {
+  display: flex;
+  border: none;
+  background-color: transparent;
+  color: #007bff;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.change:focus {
+  outline: 0;
+}
+.profilePhotoDiv {
+  width: 160px;
+  height: 150px;
+  position: relative;
+  border-radius: 50%;
+  background-color: #fff;
+}
+.addPhoto {
+  position: relative;
+  left: 70%;
+  top: 74%;
+  width: 50px;
+  height: 25px;
+  padding: 0px;
+  margin: 0px;
+}
+.addPhoto input {
+  opacity: 0;
+  z-index: 10;
+  width: 50px !important;
+  height: 30px !important;
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  bottom: 0%;
+  right: 0%;
+  padding: 0px;
+  margin: 0px;
+}
+.addPhoto input:disabled {
+  z-index: -1;
+}
+.addPhoto i {
+  font-size: 30px;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  bottom: 0%;
+  right: 0%;
+  cursor: pointer;
+}
+.fas.fa-camera {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 35px;
+  border-radius: 50%;
+  font-size: 25px;
+  background-color: #ddd;
+}
+.fas.fa-camera.hidden {
+  display: none;
+}
+.fas.fa-check,
+.fas.fa-times {
+  display: none;
+}
+.fas.fa-check.visible,
+.fas.fa-times.visible {
+  display: block;
+}
+.saveOrCancel {
+  position: relative;
+}
+.saveOrCancel i:nth-of-type(1) {
+  left: 20%;
+}
+.saveOrCancel i:nth-of-type(2) {
+  left: 95%;
+}
+
+.profileForm {
+  background-color: #fff;
+  padding: 5px 12px;
+  border-radius: 15px;
+  width: 80%;
+}
+.profileForm input {
+  background-color: transparent;
+  outline: none;
+  border: none;
+  width: 100%;
+  margin: 4px 0px;
+  font-size: 16px;
+  padding: 0px;
+  font-weight: 700;
+  color: #000;
+}
+input.allowChange {
+  background-color: #e0e0e0;
+}
+.profileForm button {
+  margin-top: 5px;
+  width: 100%;
+}
+.createListingLink {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 80%;
+  margin-top: 50px;
+  text-decoration: none;
+  background-color: #fff;
+  color: #000;
+  font-weight: 500;
+  padding: 15px;
+  border-radius: 15px;
+  font-size: 18px;
+}
+.createListingLink:hover {
+  text-decoration: none;
+  color: #000;
+}
+.createListingLink i {
+  font-size: 20px;
+}
+.yourListings {
+  margin-top: 40px;
+  font-size: 20px;
+  color: #000;
+  font-weight: 500;
+}
+
+/*PROFILE PAGE > VERIFY EMAIL */
+.verify-card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 75%;
+  max-width: 75%;
+  background-color: #fff;
+  height: 40%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0px 15px;
+}
+.verify-card p {
+  text-align: center;
+}
+.verify-card i {
+  font-size: 6rem;
+  color: #007bff;
+  position: absolute;
+  top: -12%;
+}
+.verify-card button {
+  margin-top: 20px;
+}
+/* FORGOT PASSWORD PAGE */
+.forgotPasswordPage {
+  text-align: center;
+  width: 85%;
+  margin: 3.5rem;
+  background-color: rgba(0, 0, 0, 0.1);
+  padding: 25px;
+  position: relative;
+  border-radius: 45px;
+}
+.forgotPasswordPage p {
+  font-weight: 700;
+}
+.forgotPasswordPage i {
+  position: absolute;
+  top: -7%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 30px;
+}
+.resetBtn {
+  margin-top: 15px;
+}
+.footerForgotPassword {
+  margin-top: 40px;
+  display: flex;
+  justify-content: space-between;
+}
+/* RESET  PASSWORD PAGE  */
+.resetPasswordContainer {
+  display: flex;
+  justify-content: center;
+}
+.resetPasswordPage {
+  margin: 3.5rem;
+  width: 80%;
+  background-color: rgba(0, 0, 0, 0.1);
+  padding: 25px;
+  border-radius: 45px;
+}
+.resetPasswordHeader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+.resetPasswordHeader span {
+  font-size: 32px;
+  margin-right: 10px;
+  font-weight: 600;
+}
+.resetPasswordHeader i {
+  font-size: 26px;
+}
+.resetPasswordForm {
+  text-align: center;
+}
+.resetPasswordForm label {
+  text-align: left;
+}
+.resetPasswordForm span {
+  display: block;
+  text-align: left;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+/* SEARCH COMPONENT STYLING*/
+.category-page input::-webkit-outer-spin-button,
+.category-page input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.category-page input[type="number"] {
+  -moz-appearance: textfield;
+  text-align: left;
+}
+.pageContainerCategory {
+  margin: 3rem;
+  position: relative;
+}
+.category-page {
+  margin-bottom: -250px;
+  transform: translateX(-150%);
+  transition: all 0.7s ease-in;
+}
+.category-page.active {
+  display: block;
+  transition: all 0.7s ease-in;
+  margin-bottom: 0px;
+  transform: translateX(0);
+}
+.category-page form i {
+  margin-right: 5px;
+}
+.category-page label {
+  transform: scale(1);
+  transition: 0.3s ease-out;
+}
+.category-page label:hover {
+  transition: 0.2s ease-in;
+  transform: scale(1.01);
+}
+.filter {
+  font-size: 20px;
+  font-weight: 700;
+}
+.filter i {
+  cursor: pointer;
+  width: 20px;
+}
+.keywordsAndCity {
+  display: flex;
+  width: 100%;
+}
+.keywords-input-wrapper {
+  margin-right: 15px;
+}
+.keywords-input-wrapper,
+.city-input-wrapper {
+  flex: 1;
+}
+.price,
+.surface {
+  display: flex;
+}
+.price input:nth-of-type(1),
+.surface input:nth-of-type(1) {
+  margin-right: 15px;
+}
+
+/* GRID SYSTEM */
+.category-listing-item,
+.yourListingsContainer,
+.offerTrueListings {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: minmax(180px, 1fr);
+  grid-row-gap: 10px;
+  margin-bottom: 100px;
+}
+.category-listing-item {
+  padding: 5px 0px 0px 5px;
+}
+.yourListingsContainer {
+  padding: 5px 0px 70px 5px;
+}
+/* LISTING ITEM COMPONENT */
+.listingItem {
+  display: flex;
+  border-radius: 0px 10px 10px 0px;
+  background-color: #efefef;
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.2s ease;
+  margin-bottom: 20px;
+  margin-right: 10px;
+}
+#listing-item:hover {
+  transform: scale(1.01);
+  transition: transform 0.2s ease;
+}
+.listingPrice {
+  position: absolute;
+  left: 0%;
+  bottom: 0%;
+  margin: 0px;
+  border-radius: 0px 5px 0px 10px;
+  padding: 3px 5px;
+  background-color: rgba(0, 204, 102, 0.8);
+  color: #000;
+  font-weight: bold;
+}
+.listingItemImg {
+  width: 60%;
+  height: 100%;
+  border-radius: 10px 0px 0px 10px;
+  padding: 0px;
+}
+.listingMoreInfo {
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 10px;
+}
+.listingMoreInfo li {
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  margin: 5px 0px;
+  width: 65%;
+}
+.listingMoreInfo .iconsForResponsive {
+  display: none;
+}
+.listingMoreInfo i {
+  margin: 0px 8px;
+  font-size: 16;
+}
+.deleteListing,
+.editListing {
+  position: absolute;
+  border: none;
+  font-size: 19px;
+  background-color: transparent;
+  top: 3%;
+  z-index: 100;
+}
+.deleteListing {
+  right: 0%;
+  color: #e74c3c;
+}
+.editListing {
+  right: 4%;
+  color: #e74c3c;
+}
+
+/* CREATE LISTING PAGE */
+input[type="file"] {
+  width: 150%;
+  background-color: #fff;
+  padding: 10px;
+}
+input[type="file"]::-webkit-file-upload-button {
+  background-color: #007bff;
+  border: none;
+  color: #fff;
+  font-weight: 600;
+  padding: 0.5rem 0.75rem;
+  border-radius: 1rem;
+  margin-right: 1rem;
+  cursor: pointer;
+}
+input[type="number"] {
+  text-align: center;
+}
+.createListingContainer {
+  margin: 3rem;
+}
+.createListingContainer form {
+  color: #000;
+  font-weight: 500;
+  font-size: 17px;
+  width: 50%;
+  padding-bottom: 80px;
+}
+.createListingContainer input,
+.createListingContainer textarea {
+  border: none;
+  width: 100%;
+  padding: 6px 10px;
+  border-radius: 15px;
+  font-weight: 600;
+}
+.createListingContainer textarea {
+  height: 170px;
+  width: 130%;
+  font-size: 15px;
+}
+.createListingContainer input:focus,
+.createListingContainer textarea:focus {
+  outline: 0;
+}
+.formButtonsDiv {
+  display: flex;
+  color: #000;
+}
+.formButtonsDiv input {
+  display: none;
+}
+.formButton {
+  border: none;
+  background-color: #fff;
+  color: #000;
+  font-weight: 500;
+  border-radius: 20px;
+  padding: 8px 25px;
+  cursor: pointer;
+  margin: 0px 3px;
+  /* z-index: 1000000; */
+}
+.formButton.active {
+  color: #fff;
+  background-color: #007bff;
+}
+.latLngDiv {
+  display: flex;
+}
+.lat,
+.lng {
+  flex: 1;
+}
+.lat {
+  margin-right: 20px;
+}
+.surfaceCreateListing {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+.surfaceCreateListing input {
+  width: 35%;
+}
+.surfaceCreateListing span {
+  font-size: 18px;
+  margin-left: 10px;
+}
+.numberInputs {
+  display: flex;
+}
+.numberInputs > div {
+  margin-right: 15px;
+}
+.groupOfNumberInputs {
+  width: 35%;
+}
+.groupOfNumberInputs input {
+  padding: 6px 10px;
+}
+.createListingPriceDiv {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+.createListingPriceDiv input {
+  width: 35%;
+  margin-right: 10px;
+}
+.createListingPriceDiv span {
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+}
+.createListingPriceDiv i {
+  margin-right: 8px;
+}
+.listing-btn {
+  font-size: 22px;
+  font-weight: 600;
+  padding: 10px 0px;
+  margin: 30px 0px 20px 0px;
+  border-radius: 15px;
+  border: none;
+  background-color: #007bff;
+  color: #fff;
+  width: 100%;
+}
+.leafletContainer-createListing {
+  width: 160%;
+  height: 450px;
+  overflow-x: hidden;
+  position: relative;
+}
+.leafletContainer-createListing input {
+  /* opacity: 0; */
+  /* z-index: -1; */
+  position: absolute;
+  height: 100%;
+}
+/* EDIT LISTING - Choosen Images */
+.uploaded-images {
+  margin: 15px 0px;
+  width: 130%;
+  display: grid;
+  grid-gap: 10px;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: minmax(130px, 1fr);
+  background-color: #fff;
+  padding: 30px 10px;
+  border-radius: 10px;
+}
+.uploaded-image {
+  width: 100%;
+  height: 160px;
+  position: relative;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  border-radius: 5px;
+}
+.fas.fa-times.visible-edit-listing {
+  color: #000;
+  display: block;
+  cursor: pointer;
+  position: absolute;
+  color: #e80606;
+  z-index: 999;
+  top: 3%;
+  right: 3%;
+  font-size: 26px;
+}
+.fas.fa-times.visible-edit-listing:hover {
+  transform: scale(1.2);
+}
+/* Landing page - Swiper Slide styling */
+.swiperSlideDiv-landingPage {
+  height: 27vw;
+  width: 100%;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+.swiper-pagination-bullet-active {
+  background-color: #ffffff !important;
+}
+.swiperSlideText {
+  color: #ffffff;
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  font-weight: 600;
+  max-width: 90%;
+  font-size: 1.25rem;
+  background-color: rgba(0, 0, 0, 0.8);
+  padding: 0.5rem 1rem;
+}
+.swiperSlidePrice {
+  color: #000000;
+  position: absolute;
+  top: 40%;
+  left: 3%;
+  font-weight: 600;
+  max-width: 90%;
+  background-color: #ffffff;
+  padding: 0.25rem 1.25rem;
+  font-size: 1.25rem;
+  border-radius: 30px;
+}
+/* SINGLE PAGE LISTING */
+/* SWIPER */
+.swiperSlideDiv {
+  position: relative;
+  width: 100%;
+  height: 400px;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.singleListingPage {
+  padding-bottom: 200px;
+}
+.singleListingPage main {
+  margin: 25px;
+}
+.singleListingPage span,
+.singleListingPage p {
+  margin: 5px 0px;
+}
+.singleListingPage i {
+  margin-right: 10px;
+}
+.discountedPrice {
+  font-size: 20px;
+  font-weight: 700;
+}
+.singleListing-nameAndPrice {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 600;
+}
+.singleListing-paragraph {
+  font-size: 32px;
+  margin: 0px;
+}
+.singleListing-type {
+  color: #007bff;
+  border: 3px solid #007bff;
+  border-radius: 50px;
+  padding: 10px;
+  font-size: 20px;
+  margin: 0px;
+  transition: all 0.6s ease;
+}
+.singleListing-type:hover {
+  background-color: #007bff;
+  color: #fff;
+}
+.singleListing-address {
+  display: flex;
+  align-items: center;
+  font-size: 24px;
+  font-weight: 600;
+}
+.buildingType {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+.roomsAndSurface,
+.bedroomsAndBathrooms {
+  display: flex;
+  align-items: center;
+  width: 40%;
+  font-size: 22px;
+  margin: 10px 0px;
+}
+.roomsAndSurface span,
+.bedroomsAndBathrooms span {
+  font-weight: 600;
+  font-size: 20px;
+}
+.roomsAndSurface small,
+.bedroomsAndBathrooms small {
+  font-size: 18px;
+  color: #999;
+  font-weight: 700;
+}
+.rooms,
+.singleListing-surface,
+.bedrooms,
+.bathrooms {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.ostalo {
+  display: flex;
+  width: 55%;
+}
+.ostalo div {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+.ostalo small {
+  font-size: 20px;
+  font-weight: 600;
+}
+.ostalo .fas {
+  display: block;
+  font-size: 22px;
+  font-weight: 600;
+  margin-left: 10px;
+}
+.ostalo .fas.fa-check {
+  color: #00cc66;
+}
+.ostalo .fas.fa-times {
+  color: #e74c3c;
+}
+.descriptionDiv {
+  font-size: 18px;
+}
+.leafletContainer {
+  width: 100%;
+  height: 500px;
+  overflow-x: hidden;
+}
+.listingOwner span {
+  font-size: 18px;
+}
+
+/* LEAFLET GEOSEARCH */
+/* global styling */
+.leaflet-control-geosearch *,
+.leaflet-control-geosearch *:before,
+.leaflet-control-geosearch *:after {
+  box-sizing: border-box;
+}
+
+/* leaflet button styling */
+.leaflet-control-geosearch .leaflet-bar-part {
+  border-radius: 4px;
+  border-bottom: none;
+}
+
+.leaflet-control-geosearch a.leaflet-bar-part:before,
+.leaflet-control-geosearch a.leaflet-bar-part:after {
+  position: absolute;
+  display: block;
+  content: "";
+}
+
+/* magnifying glass */
+.leaflet-control-geosearch a.leaflet-bar-part:before {
+  top: 19px;
+  left: 16px;
+  width: 8px;
+  border-top: 2px solid #555;
+  transform: rotateZ(45deg);
+}
+
+.leaflet-control-geosearch a.leaflet-bar-part:after {
+  top: 6px;
+  left: 6px;
+  height: 14px;
+  width: 14px;
+  border-radius: 50%;
+  border: 2px solid #555;
+}
+
+/* resets for pending and error icons */
+.leaflet-control-geosearch.error a.leaflet-bar-part:before,
+.leaflet-control-geosearch.pending a.leaflet-bar-part:before {
+  display: none;
+}
+
+.leaflet-control-geosearch.pending a.leaflet-bar-part:after,
+.leaflet-control-geosearch.error a.leaflet-bar-part:after {
+  left: 50%;
+  top: 50%;
+  width: 18px;
+  height: 18px;
+  margin: -9px 0 0 -9px;
+  border-radius: 50%;
+}
+
+/* pending icon */
+.leaflet-control-geosearch.pending a.leaflet-bar-part:after {
+  content: "";
+  border: 2px solid #555;
+  border-top: 2px solid #f3f3f3;
+  animation: spin 1s linear infinite;
+}
+
+/* error icon */
+.leaflet-control-geosearch.error a.leaflet-bar-part:after {
+  content: "!";
+  line-height: initial;
+  font-weight: 600;
+  font-size: 18px;
+  border: none;
+}
+
+/* search form styling */
+.leaflet-control-geosearch form {
+  display: none;
+  position: absolute;
+  top: -2px;
+  left: 103%;
+  border-radius: 0 4px 4px 0;
+  border: 2px solid rgba(0, 0, 0, 0.2);
+  border-left: none;
+  background-color: #fff;
+  background-clip: padding-box;
+  z-index: -1;
+  height: auto;
+  margin: 0;
+  padding: 0 8px;
+  width: 150%;
+}
+
+.leaflet-control-geosearch.active form {
+  display: block;
+}
+
+.leaflet-control-geosearch form input {
+  min-width: 300px;
+  width: 100%;
+  outline: none;
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+  height: 31px;
+  border-radius: 0 4px 4px 0;
+  border: navajowhite;
+  text-indent: 25px;
+  /* z-index: 100000 !important; */
+  text-overflow: ellipsis;
+}
+
+.leaflet-control-geosearch .results {
+  background: #fff;
+}
+
+.leaflet-control-geosearch .results > * {
+  line-height: 24px;
+  /* padding: 0 8px; */
+  border: 1px solid transparent;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.leaflet-control-geosearch .results.active {
+  padding: 5px 0;
+  border-top: 1px solid #c6c6c6;
+  margin-top: 29px;
+  width: 350px;
+}
+
+.leaflet-control-geosearch .results > .active,
+.leaflet-control-geosearch .results > :hover {
+  background-color: #f8f8f8;
+  border-color: #c6c6c6;
+  cursor: pointer;
+}
+
+/* add missing border(left-border) to form */
+.leaflet-control-geosearch .results.active:after {
+  content: "";
+  display: block;
+  width: 0;
+  border-left: 2px solid rgba(0, 0, 0, 0.2);
+  position: absolute;
+  left: -2px;
+  bottom: -2px;
+  top: 30px;
+}
+
+/* animations */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.leaflet-top .leaflet-control-geosearch.bar,
+.leaflet-bottom .leaflet-control-geosearch.bar {
+  display: none;
+}
+
+.leaflet-control-geosearch.bar {
+  position: relative;
+  display: block;
+  height: auto;
+  width: 400px;
+  margin: 10px auto 0;
+  cursor: auto;
+}
+
+.leaflet-control-geosearch.bar form {
+  position: relative;
+  top: 0;
+  left: 0;
+  display: block;
+  border: 2px solid rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+.leaflet-control-geosearch.bar form input {
+  min-width: 100%;
+  width: 100%;
+}
+
+.leaflet-control-geosearch.bar .results.active:after {
+  opacity: 0.2;
+}
+
+.leaflet-right .leaflet-control-geosearch form {
+  right: 28px;
+  left: initial;
+  border-radius: 4px 0 0 4px;
+  border-left: inherit;
+  border-right: none;
+}
+/* Reset search input - X */
+.leaflet-control-geosearch a.reset {
+  color: black;
+  position: absolute;
+  padding: 0 5px;
+  left: 0%;
+  top: 0%;
+  height: 31px;
+  font-size: 28px;
+  cursor: pointer;
+  border: none;
+}
+.leaflet-control-geosearch a.reset:hover {
+  background: #f5f5f5;
+}
+
+/* RESPONSIVE DESIGN */
+@media (max-width: 1900px) {
+  .category-listing-item,
+  .yourListingsContainer,
+  .offerTrueListings {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 1500px) {
+  .createListing {
+    width: 30%;
+  }
+  .editListing {
+    right: 5%;
+  }
+  .listingMoreInfo li {
+    width: 85%;
+    font-size: 14px;
+  }
+  .swiperSlideDiv {
+    height: 300px;
+  }
+}
+@media (max-width: 1350px) {
+  .pageContainerCategory {
+    margin: 1.5rem;
+  }
+  .profileContainer {
+    margin: 1.5rem;
+  }
+  .leafletContainer-createListing {
+    width: 180%;
+    height: 400px;
+  }
+  .singleListing-paragraph {
+    font-size: 90%;
+  }
+  .category-listing-item {
+    grid-auto-rows: minmax(160px, 1fr);
+  }
+  .swiperSlideText {
+    font-size: 1rem;
+    padding: 0.35rem 0.75rem;
+  }
+  .swiperSlidePrice {
+    font-size: 1rem !important;
+    padding: 0.2rem 0.75rem;
+  }
+}
+@media (max-width: 1150px) {
+  .yourListingsContainer {
+    grid-auto-rows: minmax(150px, 1fr);
+  }
+  .editListing,
+  .deleteListing {
+    font-size: 15px;
+  }
+  .listingMoreInfo li {
+    display: flex;
+    align-items: center;
+  }
+}
+@media (max-width: 1050px) {
+  .listingMoreInfo li {
+    width: 80%;
+  }
+  .editListing {
+    right: 5%;
+  }
+  .category-listing-item {
+    grid-auto-rows: minmax(150px, 1fr);
+  }
+}
+@media (max-width: 900px) {
+  .landing-page-paragraf{
+    font-size: 1.5rem;
+  }
+  .category img {
+    margin: 0 5px;
+  }
+  .profileContainer {
+    margin: 1rem;
+  }
+  .profileInfo {
+    width: 80%;
+  }
+  .pageContainer {
+    margin: 1rem;
+  }
+  .category-page {
+    flex-direction: column;
+  }
+  .pageContainerCategory {
+    margin: 0.6rem;
+  }
+  .category-listing-item {
+    grid-auto-rows: minmax(240px, 1fr);
+  }
+  .category-listing-item .listingItem {
+    border-radius: 10px;
+  }
+  .listingItemImg {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px 10px 0px 0px;
+  }
+  .listingMoreInfo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    position: absolute;
+    height: 35px;
+    top: 0%;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    padding: 0px;
+    opacity: 1;
+    transition: opacity 0.2s ease-in;
+    border-radius: 10px 10px 0px 0px;
+  }
+  .listingMoreInfo li {
+    justify-content: center;
+  }
+  .listingItem:hover .listingMoreInfo {
+    opacity: 0;
+    transition: opacity 0.2s ease-out;
+  }
+  .listingMoreInfo .icons {
+    display: none;
+  }
+  .listingMoreInfo li {
+    background-color: transparent;
+    border-radius: 0px;
+    text-align: center;
+  }
+  .listingMoreInfo .iconsForResponsive {
+    display: block;
+  }
+  .listingMoreInfo i {
+    margin: 0px 8px;
+  }
+  .listingPrice {
+    border-radius: 0px 0px 10px 10px;
+    bottom: -10%;
+    background-color: #00cc66;
+    width: 100%;
+    text-align: center;
+    padding: 3px;
+  }
+  .offerTrueListings .listingItemImg {
+    width: 100%;
+  }
+  .yourListingsContainer,
+  .offerTrueListings {
+    grid-auto-rows: minmax(220px, 1fr);
+    grid-template-columns: repeat(2, 45%);
+    justify-content: space-around;
+    grid-row-gap: 6px;
+  }
+  .deleteListing {
+    right: -9%;
+    top: 0%;
+  }
+  .editListing {
+    right: -10%;
+    top: 12%;
+  }
+  .createListingContainer {
+    margin: 2rem;
+  }
+  .singleListing-nameAndPrice {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .singleListing-paragraph {
+    font-size: 22px;
+  }
+  .singleListing-type {
+    padding: 6px 14px;
+    font-size: 20px;
+  }
+  .roomsAndSurface,
+  .bedroomsAndBathrooms {
+    width: 55%;
+  }
+  .swiperSlideText {
+    font-size: 0.75rem;
+    padding: 0.35rem 0.75rem;
+  }
+  .swiperSlidePrice {
+    font-size: 0.75rem !important;
+    padding: 0.2rem 0.75rem;
+  }
+}
+@media (max-width: 700px) {
+  .profileInfo {
+    width: 100%;
+  }
+  .category-title{
+    font-size: 1.4rem;
+  }
+  .landing-page-paragraf{
+    font-size: 1.4rem;
+  }
+  .category-listing-item {
+    grid-auto-rows: minmax(200px, 1fr);
+    justify-content: space-between;
+  }
+  .offerTrueListings {
+    grid-auto-rows: minmax(190px, 1fr);
+  }
+
+  .category-listing-item.listingMoreInfo {
+    height: 30px;
+    width: 100%;
+  }
+  .category-listing-item .listingMoreInfo li:nth-of-type(2) i {
+    margin: 0px 5px;
+  }
+  .listingMoreInfo i {
+    margin: 0px 4px;
+  }
+  .offerTrueListings .listingMoreInfo i {
+    margin: 0px 10px;
+  }
+  .yourListingsContainer {
+    grid-auto-rows: minmax(250px, 1fr);
+    grid-template-columns: repeat(1, 1fr);
+  }
+  .yourListingsContainer .listingItemImg,
+  .yourListingsContainer .listingMoreInfo,
+  .yourListingsContainer .listingPrice {
+    width: 77%;
+  }
+  .yourListingsContainer .listingItemImg {
+    border-radius: 0px 0px 0px 10px;
+  }
+  .yourListingsContainer .listingMoreInfo {
+    border-radius: 10px 0px 0px 0px;
+  }
+  .yourListingsContainer .listingPrice {
+    bottom: 0%;
+    border-bottom-right-radius: 0px;
+  }
+  .deleteListing,
+  .editListing {
+    top: 0%;
+    right: 0%;
+  }
+  .editListing {
+    right: 8%;
+  }
+  .createListingLink {
+    width: 90%;
+  }
+  .createListingLink i {
+    font-size: 20px;
+  }
+  .profileHeader {
+    width: 90%;
+  }
+  .profileForm {
+    width: 90%;
+  }
+  .leafletContainer-createListing {
+    width: 145%;
+    height: 400px;
+  }
+  .createListingContainer form {
+    width: 70%;
+  }
+  .leafletContainer {
+    height: 350px;
+  }
+  .singleListing-paragraph {
+    font-size: 18px;
+  }
+  .singleListing-type {
+    font-size: 15px;
+    padding: 2px 12px;
+  }
+  .title {
+    font-size: 22px;
+  }
+  .singleListing-address,
+  .buildingType,
+  .roomsAndSurface,
+  .bedroomsAndBathrooms {
+    font-size: 20px;
+  }
+  .surface-icon {
+    height: 22px;
+    width: 22px;
+  }
+  .ostalo {
+    width: 75%;
+  }
+  .swiperSlideDiv {
+    height: 200px;
+  }
+  .roomsAndSurface,
+  .bedroomsAndBathrooms {
+    width: 75%;
+  }
+  .discountedPrice {
+    font-size: 18px;
+  }
+  .swiperSlideText {
+    font-size: 0.65rem;
+    padding: 0.15rem 0.55rem;
+  }
+  .swiperSlidePrice {
+    font-size: 0.65rem !important;
+    padding: 0rem 0.75rem;
+  }
+}
+@media (max-width: 480px) {
+  .landing-page-paragraf{
+    font-size: 1.2rem;
+  }
+  .offerTrueListings {
+    grid-template-columns: repeat(1, 1fr);
+    grid-auto-rows: minmax(200px, 1fr);
+  }
+  .offerTrueListings .listingMoreInfo {
+    height: 25px;
+  }
+  .category img {
+    border-radius: 20px;
+  }
+  .category-title{
+    font-size: 1.3rem;
+  }
+ 
+}
+@media (max-width: 450px) {
+  .pageHeader {
+    font-size: 1.3rem;
+  }
+  .category img {
+    border-radius: 30px;
+    margin: 0px 3px;
+  }
+  .category-title{
+    font-size: 1rem;
+  }
+  header {
+    flex-direction: column;
+  }
+  .profileContainer {
+    margin: 1rem;
+  }
+  .profileInfo {
+    width: 100%;
+  }
+  .category-listing-item {
+    grid-auto-rows: minmax(190px, 1fr) !important;
+  }
+
+  .listingMoreInfo {
+    height: 25px;
+  }
+  .category-listing-item .listingMoreInfo li {
+    font-size: 14px;
+  }
+  .listingMoreInfo li:nth-of-type(2) i {
+    margin: 0px 0px;
+  }
+  .offerTrueListings .listingMoreInfo li:nth-of-type(2) i {
+    margin: 0px 5px;
+  }
+
+  .yourListingsContainer {
+    grid-template-columns: repeat(1fr);
+    grid-auto-rows: minmax(200px, 1fr);
+  }
+  .editListing {
+    right: 9%;
+  }
+  .createListingContainer {
+    margin: 1.5rem;
+  }
+  .createListingLink {
+    width: 100%;
+    font-size: 16px;
+  }
+  .createListingLink i {
+    font-size: 16px;
+  }
+  .profileHeader {
+    width: 100%;
+  }
+  .profileForm {
+    width: 100%;
+  }
+  .leafletContainer-createListing {
+    width: 116%;
+    height: 300px;
+  }
+  .createListingContainer form {
+    width: 90%;
+  }
+  .title span:nth-of-type(:not(1)) {
+    font-size: 20px;
+  }
+  .swiperSlideDiv {
+    height: 180px;
+  }
+  .singleListing-address,
+  .buildingType {
+    font-size: 18px;
+  }
+  .rooms span,
+  .singleListing-surface span,
+  .bedrooms span,
+  .bathrooms span {
+    font-size: 16px;
+  }
+  .roomsAndSurface small,
+  .bedroomsAndBathrooms small {
+    font-size: 16px;
+  }
+  .ostalo {
+    width: 100%;
+  }
+  .ostalo .fas,
+  .ostalo small {
+    font-size: 18px;
+  }
+  .leafletContainer {
+    height: 280px;
+  }
+  .descriptionDiv {
+    font-size: 16px;
+  }
+  .surface-icon {
+    width: 20px;
+    height: 20px;
+  }
+  .discountedPrice {
+    font-size: 16px;
+  }
+  .offerPageContainer .pageHeader {
+    font-size: 30px;
+  }
+  .swiperSlideText {
+    padding: 0.05rem 0.15rem;
+  }
+  .swiperSlidePrice {
+    position: absolute;
+    top: 82%;
+    left: 0%;
+    padding: 0rem 0.25rem;
+  }
+}
+@media (max-width: 370px) {
+  .pageHeader {
+    font-size: 1rem;
+  }
+  /* .pageContainer {
+    overflow: scroll;
+  } */
+  .category img {
+    border-radius: 20px;
+    margin: 0px 5px;
+  }
+  .category-listing-item {
+    grid-template-columns: repeat(1, 1fr);
+    grid-auto-rows: 220px;
+  }
+  .category-listing-item .listingItemImg {
+    height: 100%;
+  }
+  .listingMoreInfo {
+    height: 25px;
+  }
+  .listingPrice {
+    padding: 2px !important;
+  }
+  .listingMoreInfo i {
+    margin: 0px 5px;
+  }
+  .yourListingsContainer {
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: repeat(1fr);
+  }
+  .yourListingsContainer .listingItemImg {
+    width: 90%;
+  }
+  .yourListingsContainer .listingItemImg,
+  .yourListingsContainer .listingMoreInfo,
+  .yourListingsContainer .listingPrice {
+    width: 90%;
+  }
+  .editListing {
+    top: 15%;
+    right: -1%;
+  }
+  .createListingLink {
+    font-size: 15px;
+  }
+  .createListingLink i {
+    font-size: 15px;
+  }
+  .leafletContainer {
+    height: 300px;
+  }
+  .title span:nth-of-type(:not(1)) {
+    font-size: 17px;
+  }
+  .swiperSlideDiv {
+    height: 150px;
+  }
+  .singleListing-address,
+  .buildingType {
+    font-size: 16px;
+  }
+  .singleListing-address i,
+  .buildingType i {
+    font-size: 18px;
+  }
+  .rooms span,
+  .singleListing-surface span,
+  .bedrooms span,
+  .bathrooms span {
+    font-size: 15px;
+  }
+  .roomsAndSurface small,
+  .bedroomsAndBathrooms small {
+    font-size: 15px;
+  }
+  .ostalo {
+    width: 100%;
+  }
+  .ostalo .fas,
+  .ostalo small {
+    font-size: 16px;
+  }
+  .swiperSlideText {
+    top: 0%;
+    padding: 0.05rem 0.15rem;
+  }
+  .swiperSlideDiv-landingPage .swiperSlideText{
+    font-size: 8px;
+  }
+  .swiperSlidePrice {
+    padding: 0rem 0.25rem;
+  }
+  .pageContainer {
+    overflow-x: hidden;
+  }
+}
+
+@media (max-width:320px) {
+  .landing-category{
+    padding-bottom: 80px;
+  }
+  
+}
