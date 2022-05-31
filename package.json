@@ -1,0 +1,30 @@
+{
+  "name": "real-estates-mern",
+  "version": "1.0.0",
+  "description": "MERN Real Estates App",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KenanDropic/real-estates-mern.git"
+  },
+  "author": "Kenan Dropić",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/KenanDropic/real-estates-mern/issues"
+  },
+  "homepage": "https://github.com/KenanDropic/real-estates-mern#readme",
+  "dependencies": {
+    "colors": "^1.4.0",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "express-async-handler": "^1.2.0",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "concurrently": "^7.2.1",
+    "nodemon": "^2.0.16"
+  }
+}
