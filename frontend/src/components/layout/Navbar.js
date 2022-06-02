@@ -29,8 +29,8 @@ const Navbar = () => {
           <span className="text">Ponude</span>
         </li>
         <li
-          className={matchPath("/profil") ? "active" : "" ? "active" : ""}
-          onClick={() => navigate("/profil")}
+          className={matchPath("/profile") ? "active" : "" ? "active" : ""}
+          onClick={() => navigate("/profile")}
         >
           <i className="fas fa-user"></i>
           <span className="text">Profil</span>
