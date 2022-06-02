@@ -30,6 +30,12 @@ header {
   font-size: 28px;
   font-weight: bold;
 }
+.link {
+  text-decoration: none;
+  margin-left: 5px;
+  font-weight: 800;
+  color: #007bff;
+}
 .title span {
   position: relative;
 }
@@ -98,27 +104,16 @@ li.active {
 .text {
   font-family: inherit;
 }
-.landingPageContainer {
-  overflow: hidden;
-}
+
 /* LANDING PAGE */
-.landing-category {
-  display: grid;
-  grid-template-columns: repeat(2,1fr);
-  grid-template-rows: minmax(100px, max-content)
-                        45%;
-  grid-gap: 10px;
-  overflow: hidden;
+.ctg-row{
+  height: 100% !important;
 }
-.category{
-}
-.category img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 40px;
+.ctg-row div{
   cursor: pointer;
 }
+
+
 .category-title {
   font-size: 1.5rem;
   font-weight: 450;
@@ -147,11 +142,7 @@ form label {
   cursor: pointer;
   text-decoration: none;
 }
-header p a {
-  color: #007bff;
-  font-weight: bold;
-  text-decoration: none;
-}
+
 a:hover {
   text-decoration: none;
   color: #007bff;
@@ -174,17 +165,45 @@ a:hover {
   cursor: pointer;
 }
 
-.showHidePassword {
+.frm-el{
   position: relative;
+}
+.togglePassword {
+  position: absolute;
+  right: 2%;
+  top: 58%;
   cursor: pointer;
 }
-.showHidePassword i {
-  position: absolute;
-  top: 50%;
-  right: 2%;
-  transform: translateY(-50%);
+.togglePassword i {
   font-size: 26px;
 }
+.password-policies {
+  width: 100%;
+  padding: 0px;
+  height: 0px;
+  background-color: #f5f5f5;
+  border-radius: 5px;
+  margin-top: 5px;
+  box-sizing: border-box;
+  opacity: 0;
+  overflow: hidden;
+  transition: height 0.3s ease-in-out ,opacity 0.3s ease-in-out;
+}
+.password-policies.active{
+  opacity: 1;
+  padding: 10px;
+  height: 180px;
+  transition: height 0.3s ease-in-out ,opacity 0.3s ease-in-out;
+}
+.password-policies > div {
+  margin: 10px 5px;
+  font-weight: 600;
+  color: #888;
+}
+.password-policies > div.active{
+  color: #111;
+}
+
 /* SPINNER COMPONENT*/
 .loadingSpinnerContainer {
   position: fixed;
@@ -246,11 +265,11 @@ a:hover {
   justify-content: space-between;
   width: 80%;
   margin-top: 25px;
-}
-.profileHeader p {
+} 
+ .profileHeader p {
   color: #000;
   font-weight: 700;
-}
+} 
 .logout,
 .go-back {
   display: flex;
