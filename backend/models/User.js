@@ -34,10 +34,32 @@ const UserSchema = new mongoose.Schema({
   role: {
     type: String,
     enum: ["user", "publisher", "admin"],
-    default: user,
+    default: "user",
   },
   resetPasswordToken: String,
   resetPasswordExpire: Date,
 });
+
+// Encrypting password using bcryptjs
+UserSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) {
+    next();
+  }
+
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
+});
+
+// check if password matches
+UserSchema.methods.matchPasswords = async function (enteredPassword) {
+  return await bcrypt.compare(enteredPassword, this.password);
+};
+
+// get signed JWT token
+UserSchema.methods.getSignedJWT = function () {
+  return jwt.sign({ id: this.id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRE,
+  });
+};
 
 export default mongoose.model("User", UserSchema);
