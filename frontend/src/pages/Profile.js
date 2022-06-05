@@ -5,8 +5,12 @@ import { useDispatch, useSelector } from "react-redux";
 // import VerifyEmailWarning from "./SendEmailVerification";
 import Spinner from "../components/Spinner";
 import { Alert, Col, Row } from "react-bootstrap";
-import { logout } from "../features/users/usersSlice";
-import { deleteImg, upload } from "../features/images/imagesSlice";
+import {
+  logout,
+  resetIsStates,
+  updateUser,
+} from "../features/users/usersSlice";
+import { upload } from "../features/images/imagesSlice";
 
 const Profile = () => {
   const [isImagePosted, setIsImagePosted] = useState(false);
@@ -16,7 +20,9 @@ const Profile = () => {
   const [previewSource, setPreviewSource] = useState("");
 
   const dispatch = useDispatch();
-  const { user, loading, error } = useSelector((state) => state.users);
+  const { user, loading, error, isEdited } = useSelector(
+    (state) => state.users
+  );
   const { loading: imgLoading, error: imgError } = useSelector(
     (state) => state.images
   );
@@ -29,7 +35,7 @@ const Profile = () => {
     reset,
   } = useForm({
     defaultValues: {
-      username: "",
+      name: "",
       phone: "",
       imageURL: "",
     },
@@ -42,10 +48,10 @@ const Profile = () => {
   useEffect(() => {
     if (user) {
       const defaults = {
-        username: user?.name,
-        email: user?.email,
-        phone: user?.phone,
-        imageURL: user?.avatar,
+        name: user.name,
+        email: user.email,
+        phone: user.phone,
+        imageURL: user.avatar,
       };
       reset(defaults);
     }
@@ -53,53 +59,14 @@ const Profile = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
-  //useEffect koji osluškuje promjenu userPhoneNumber state i ažurira defaultne vrijednosti po tome
-  // useEffect(() => {
-  // let signedWithGoogle = JSON.parse(localStorage.getItem("signedWithGoogle")); //dohvatamo vrijednost iz ls-a i s tom vrijednošću ažuriramo state isSignedWithGoogle,putem dispatch type-a "IS_SIGNED_W_GOOGLE"
-  // dispatch({ type: "IS_SIGNED_W_GOOGLE", payload: signedWithGoogle });
-  // return () => (isPhoneMounted.current = false);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
-
   const onSubmit = async (data) => {
-    // const values = getValues();
-    // //postoji mogućnost mijenjanja podataka,stoga ako sačuvani displayName trenutnog usera ne odgovara novoj vrijednosti iz inputa,znači da je potrebno ažurirati displayName s novom vrijednošću
-    // if (auth.currentUser.displayName !== values.username) {
-    //   updateProfile(auth.currentUser, {
-    //     displayName: values.username,
-    //   });
-    //   await updateDoc(docRef, {
-    //     username: values.username,
-    //   });
-    //   dispatch({ type: "ALLOW_PROFILE_CHANGES" });
-    //   toast.success("Ime uspješno ažurirano");
-    // }
-    // //Ako sačuvani broj telefona trenutnog usera ne odgovara novoj vrijednosti iz inputa,znači da je potrebno ažurirati broj telefona s novom vrijednošću
-    // if (userPhoneNumber !== values.phone) {
-    //   // dispatchListings({ type: "SET_LOADING" });
-    //   try {
-    //     await updateDoc(docRef, {
-    //       phone: values.phone,
-    //     });
-    //     dispatch({ type: "ALLOW_PROFILE_CHANGES" });
-    //     //dispatchujemo i ažuriramo state userPhone,dok za state userListings proslijeđujemo već dohvaćene korisnikove oglase
-    //     dispatchListings({
-    //       type: "SET_USER_LISTINGS_AND_PHONE",
-    //       payload: { userListings: userListings, userPhone: values.phone },
-    //     });
-    //     toast.success("Broj telefona uspješno ažuriran");
-    //   } catch (error) {
-    //     dispatchListings({ type: "REMOVE_LOADING" });
-    //   }
-    // }
+    dispatch(updateUser(data));
   };
 
   // on change what happens
   const handleFileInputChange = (e) => {
     setIsImagePosted(true);
     const file = e.target.files[0];
-    // console.log("File input state", e.target.value);
-    // console.log("Preview file & selected file", file);
     previewFile(file);
     setSelectedFile(file);
     setFileInputState(e.target.value);
@@ -135,7 +102,11 @@ const Profile = () => {
     setIsImagePosted(false);
   };
 
-  return loading || imgLoading ? (
+  if (imgLoading) {
+    return <Spinner />;
+  }
+
+  return loading ? (
     <Spinner />
   ) : error ? (
     <Alert type="info" variant="info">
@@ -213,8 +184,8 @@ const Profile = () => {
           </div>
           <form className="profileForm" onSubmit={handleSubmit(onSubmit)}>
             <input
-              name="username"
-              {...register("username", {
+              name="name"
+              {...register("name", {
                 required: "Field is required",
                 minLength: {
                   value: 3,
@@ -225,12 +196,13 @@ const Profile = () => {
                   message: "Username must contain less than 18 characters",
                 },
               })}
-              value={user?.username}
               type="text"
               className={allowProfileChanges ? "allowChange" : ""}
               disabled={allowProfileChanges ? false : true}
             />
-            <small style={{ color: "red" }}>{errors.username?.message}</small>
+            <small style={{ color: "red", fontSize: "10px" }}>
+              {errors.name?.message}
+            </small>
 
             <input
               name="phone"
@@ -240,16 +212,17 @@ const Profile = () => {
                   value:
                     /^[+][0-9]{3}[\s-.]?[6][1-5][\s-.]?[0-9]{3}[\s-.]?[0-9]{3,4}$/,
                   message:
-                    "Molimo vas,unesite ispravan format telefonskog broja",
+                    "Examples: 1) +38761653789 2) +386 62 653 789 3) +384.64.653.7891 4) +387-63-653-789",
                 },
               })}
-              value={user?.phone}
               type="tel"
               className={allowProfileChanges ? "allowChange" : ""}
               disabled={allowProfileChanges ? false : true}
               //disabled ako je allowChange false,u suprotnom nije disabled
             />
-            <small style={{ color: "red" }}>{errors.phone?.message}</small>
+            <small style={{ color: "red", fontSize: "10px" }}>
+              {errors.phone?.message}
+            </small>
 
             <div style={{ display: "flex" }}>
               <button

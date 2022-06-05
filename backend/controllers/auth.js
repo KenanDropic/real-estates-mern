@@ -81,20 +81,26 @@ export const getLoggedUser = asyncHandler(async (req, res, next) => {
 });
 
 // @desc    Update user
-// @route   GET /api/v1/auth/me
+// @route   PUT /api/v1/auth
 // @access  Private
 export const updateUser = asyncHandler(async (req, res, next) => {
+  const { name, phone } = req.body;
   const user = await User.findById(req.user.id);
 
   if (!user) {
     return next(new NotFoundError("User not found"));
   }
 
-  res.status(200).json({ success: true });
+  const updatedUser = await User.findByIdAndUpdate(req.user.id, req.body, {
+    new: true,
+    runValidators: true,
+  });
+
+  res.status(200).json({ success: true, updatedUser });
 });
 
 // @desc    Upload user avatar
-// @route   PUT /api/v1/auth/upload
+// @route   POST /api/v1/auth/upload
 // @access  Private
 export const uploadAvatar = asyncHandler(async (req, res, next) => {
   const fileStr = req.body.data;
