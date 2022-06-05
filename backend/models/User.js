@@ -31,10 +31,23 @@ const UserSchema = new mongoose.Schema({
   },
   confirmEmailToken: String,
   confirmEmailExpire: Date,
+  phone: {
+    type: String,
+    match: [
+      /^[+][0-9]{3}[\s-.]?[6][1-5][\s-.]?[0-9]{3}[\s-.]?[0-9]{3,4}$/,
+      "Allowed number format examples: 1) +38761653789 2) +386 62 653 789 3) +384.64.653.7891 4) +387-63-653-789",
+    ],
+  },
   role: {
     type: String,
     enum: ["user", "publisher", "admin"],
     default: "user",
+  },
+  avatar: {
+    type: String,
+  },
+  cloudinary_id: {
+    type: String,
   },
   resetPasswordToken: String,
   resetPasswordExpire: Date,
@@ -44,6 +57,10 @@ const UserSchema = new mongoose.Schema({
 UserSchema.pre("save", async function (next) {
   if (!this.isModified("password")) {
     next();
+  }
+
+  if (this.isModified("avatar")) {
+    console.log(this.cloudinary_id);
   }
 
   const salt = await bcrypt.genSalt(10);
