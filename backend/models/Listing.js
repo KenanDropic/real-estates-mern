@@ -9,24 +9,33 @@ const ListingSchema = new mongoose.Schema({
     type: String,
     required: [true, "Please provide address"],
   },
-  estateInfo: {
-    bathrooms: { type: Number },
-    bedrooms: { type: Number },
-    floors: { type: Number },
-    rooms: { type: Number },
-  },
+  bathrooms: { type: Number },
+  bedrooms: { type: Number },
+  floors: { type: Number },
+  rooms: { type: Number },
   building: {
     type: String,
     required: [true, "Please provide building type"],
+    enum: ["house", "apartment"],
+  },
+  city: {
+    type: String,
+    required: [true, "Please provide city"],
   },
   description: {
     type: String,
     required: [true, "Please provide description"],
   },
-  images: {
-    type: String,
-    required: [true, "Plase provide images"],
-  },
+  images: [
+    {
+      type: String,
+    },
+  ],
+  cloudinary_ids: [
+    {
+      type: String,
+    },
+  ],
   geolocation: {
     lat: {
       type: Number,
@@ -78,3 +87,5 @@ const ListingSchema = new mongoose.Schema({
     required: true,
   },
 });
+
+export default mongoose.model("Listing", ListingSchema);
