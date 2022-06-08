@@ -5,11 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 // import VerifyEmailWarning from "./SendEmailVerification";
 import Spinner from "../components/Spinner";
 import { Alert, Col, Row } from "react-bootstrap";
-import {
-  logout,
-  resetIsStates,
-  updateUser,
-} from "../features/users/usersSlice";
+import { logout, updateUser } from "../features/users/usersSlice";
 import { upload } from "../features/images/imagesSlice";
 
 const Profile = () => {
@@ -20,9 +16,7 @@ const Profile = () => {
   const [previewSource, setPreviewSource] = useState("");
 
   const dispatch = useDispatch();
-  const { user, loading, error, isEdited } = useSelector(
-    (state) => state.users
-  );
+  const { user, loading, error } = useSelector((state) => state.users);
   const { loading: imgLoading, error: imgError } = useSelector(
     (state) => state.images
   );
@@ -31,7 +25,6 @@ const Profile = () => {
     register,
     handleSubmit,
     formState: { errors },
-    getValues,
     reset,
   } = useForm({
     defaultValues: {
@@ -42,9 +35,7 @@ const Profile = () => {
   });
 
   const navigate = useNavigate();
-  const values = getValues();
 
-  //useEffect za dohvatanje korisnikovih oglasa i broja telefona
   useEffect(() => {
     if (user) {
       const defaults = {
@@ -236,17 +227,14 @@ const Profile = () => {
                 Confirm Changes
               </button>
               <button
+                type="button"
                 className={`btn btn-sm btn-secondary ${
                   allowProfileChanges ? "visible" : "invisible"
                 }`}
                 onClick={() => {
-                  //   dispatch({ type: "ALLOW_PROFILE_CHANGES" });
-                  //   const defaults = {
-                  //     username: displayName,
-                  //     phone: userPhoneNumber,
-                  //     imageURL: auth.currentUser.photoURL,
-                  //   };
-                  //   reset(defaults);
+                  setAllowProfileChanges(false);
+                  reset();
+
                   //ako abortujemo promjenu,resetujemo na defaultne vrijednosti
                 }}
               >
@@ -255,7 +243,7 @@ const Profile = () => {
             </div>
           </form>
           <Link to="/create-listing" className="createListingLink">
-            <i className="fas fa-home" />{" "}
+            <i className="fas fa-home" />
             <span>Prodajte ili iznajmite vaš stan/kuću</span>
             <i className="fas fa-arrow-right" />
           </Link>
@@ -281,7 +269,3 @@ const Profile = () => {
 };
 
 export default Profile;
-
-//   ) : (
-//     <VerifyEmailWarning />
-//   );

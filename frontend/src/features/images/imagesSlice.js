@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
 import axiosAuth from "../../utils/axiosAuth";
 import { toast } from "react-toastify";
 
@@ -15,7 +14,6 @@ export const upload = createAsyncThunk(
   async (data, thunkAPI) => {
     try {
       const img = axiosAuth.post("/api/v1/auth/upload", { data });
-
       return;
     } catch (error) {
       return thunkAPI.rejectWithValue(errorMessage(error));
@@ -35,7 +33,7 @@ const imagesSlice = createSlice({
       .addCase(upload.fulfilled, (state, action) => {
         state.loading = false;
         state.error = "";
-        // toast.success("Korisnik prijavljen uspješno");
+        toast.success("Profile photo uploaded successfully");
       })
       .addCase(upload.rejected, (state, action) => {
         state.loading = false;
