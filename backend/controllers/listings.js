@@ -7,13 +7,20 @@ import { cloudinary } from "../utils/cloudinary.js";
 // @route   GET /api/v1/listings
 // @access  Public
 export const getListings = asyncHandler(async (req, res, next) => {
-  const listings = await Listing.find({});
+  res.status(200).json(res.advancedResponse);
+});
 
-  if (!listings) {
-    return next(new NotFoundError("Listings not found"));
+// @desc    Get Listing
+// @route   GET /api/v1/listings
+// @access  Public
+export const getListing = asyncHandler(async (req, res, next) => {
+  const listing = await Listing.findById(req.params.id);
+
+  if (!listing) {
+    return next(new NotFoundError("Listing not found"));
   }
 
-  res.status(200).json({ success: true, listings });
+  res.status(200).json({ success: true, listing });
 });
 
 // @desc    Create Listing

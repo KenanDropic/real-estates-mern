@@ -1,9 +1,20 @@
 import express from "express";
-import { createListing, getListings } from "../controllers/listings.js";
+import {
+  createListing,
+  getListing,
+  getListings,
+} from "../controllers/listings.js";
+import { advacnedResponse } from "../middleware/advancedResponse.js";
 import { authenticate } from "../middleware/auth.js";
+import Listing from "../models/Listing.js";
 
 const router = express.Router();
 
-router.route("/").get(getListings).post(authenticate, createListing);
+router
+  .route("/")
+  .get(advacnedResponse(Listing), getListings)
+  .post(authenticate, createListing);
+
+router.route("/:id").get(getListing);
 
 export default router;
