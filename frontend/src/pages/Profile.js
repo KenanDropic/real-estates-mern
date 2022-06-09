@@ -7,6 +7,8 @@ import Spinner from "../components/Spinner";
 import { Alert, Col, Row } from "react-bootstrap";
 import { logout, updateUser } from "../features/users/usersSlice";
 import { upload } from "../features/images/imagesSlice";
+import { getUserListings } from "../features/listings/listingsSlice";
+import ListingItem from "../components/ListingItem";
 
 const Profile = () => {
   const [isImagePosted, setIsImagePosted] = useState(false);
@@ -16,6 +18,11 @@ const Profile = () => {
   const [previewSource, setPreviewSource] = useState("");
 
   const dispatch = useDispatch();
+  const {
+    userListings,
+    loading: listingsLoading,
+    error: listingsError,
+  } = useSelector((state) => state.listings);
   const { user, loading, error } = useSelector((state) => state.users);
   const { loading: imgLoading, error: imgError } = useSelector(
     (state) => state.images
@@ -37,6 +44,7 @@ const Profile = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    dispatch(getUserListings());
     if (user) {
       const defaults = {
         name: user.name,
@@ -49,6 +57,7 @@ const Profile = () => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
+  useEffect(() => {}, []);
 
   const onSubmit = async (data) => {
     dispatch(updateUser(data));
@@ -107,7 +116,7 @@ const Profile = () => {
     <div className="profileContainer">
       <Row className="d-flex align-items-center mb-3">
         <Col>
-          <h2>Moj profil</h2>
+          <h2>My profile</h2>
         </Col>
         <Col className="d-flex justify-content-end">
           <p
@@ -117,7 +126,7 @@ const Profile = () => {
               navigate("/");
             }}
           >
-            Odjavi se <i className="fas fa-sign-out-alt"></i>
+            Logout <i className="fas fa-sign-out-alt"></i>
           </p>
         </Col>
       </Row>
@@ -244,25 +253,24 @@ const Profile = () => {
           </form>
           <Link to="/create-listing" className="createListingLink">
             <i className="fas fa-home" />
-            <span>Prodajte ili iznajmite vaš stan/kuću</span>
+            <span>Sell or rent your house/apartment</span>
             <i className="fas fa-arrow-right" />
           </Link>
         </div>
-        <p className="yourListings">Vaše objave</p>
+        <p className="yourListings">Your listings</p>
       </main>
       <div className="yourListingsContainer">
-        {/* {userListings !== null &&
-        userListings !== undefined &&
-        userListings.map((listing, idx) => (
-          <ListingItem
-            key={listing.id}
-            id={listing.id}
-            data={listing.data}
-            onDelete={true}
-            edit={true}
-            index={idx}
-          />
-        ))} */}
+        {userListings !== undefined &&
+          userListings?.map((listing, idx) => (
+            <ListingItem
+              key={idx}
+              id={listing._id}
+              data={listing}
+              onDelete={true}
+              edit={true}
+              index={idx}
+            />
+          ))}
       </div>
     </div>
   );

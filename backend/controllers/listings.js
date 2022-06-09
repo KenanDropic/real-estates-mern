@@ -10,11 +10,27 @@ export const getListings = asyncHandler(async (req, res, next) => {
   res.status(200).json(res.advancedResponse);
 });
 
+// @desc    Get User's Listings
+// @route   GET /api/v1/listings/user
+// @access  Public
+export const getUserListings = asyncHandler(async (req, res, next) => {
+  const userListings = await Listing.find({ user: req.user._id });
+
+  if (!userListings) {
+    return next(new NotFoundError("User doesn't have any listings"));
+  }
+
+  res.status(200).json({ success: true, userListings });
+});
+
 // @desc    Get Listing
-// @route   GET /api/v1/listings
+// @route   GET /api/v1/listings/:id
 // @access  Public
 export const getListing = asyncHandler(async (req, res, next) => {
-  const listing = await Listing.findById(req.params.id);
+  const listing = await Listing.findById(req.params.id).populate({
+    path: "user",
+    select: "name phone email",
+  });
 
   if (!listing) {
     return next(new NotFoundError("Listing not found"));
