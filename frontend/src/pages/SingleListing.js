@@ -188,26 +188,27 @@ const SingleListing = () => {
               </Marker>
             </MapContainer>
           </div>
-          {/* {listing.user !== null && (
+
           <>
             <p className="title" style={{ marginTop: "15px" }}>
               <span>Informacije o vlasniku</span>
             </p>
             <div className="listingOwner">
               <span>
-                Oglas kreirao: <strong>{}</strong>
+                Oglas kreirao: <strong>{listing?.user.name}</strong>
               </span>
               <br />
               <span>
-                {listingOwner.phone !== undefined ? "Telefonski " : "Mail "}
-                kontakt:
-                <strong>
-                  {" "}
-                </strong>
+                Telefonski kontakt:
+                <strong> {listing?.user.phone}</strong>
+              </span>
+              <br />
+              <span>
+                Mail kontakt:
+                <strong> {listing?.user.email}</strong>
               </span>
             </div>
           </>
-        )} */}
         </main>
       </div>
     )
