@@ -1,6 +1,10 @@
 import Listing from "../models/Listing.js";
 import asyncHandler from "express-async-handler";
-import { BadRequestError, NotFoundError } from "../utils/errorResponse.js";
+import {
+  BadRequestError,
+  NotFoundError,
+  UnAuthorizedError,
+} from "../utils/errorResponse.js";
 import { cloudinary } from "../utils/cloudinary.js";
 
 // @desc    Get Listings
@@ -87,4 +91,136 @@ export const createListing = asyncHandler(async (req, res, next) => {
     listing.cloudinary_ids = undefined;
     res.status(500).json({ success: true, error: "Could not upload images" });
   }
+});
+
+// @desc    Edit Listing
+// @route   PUT /api/v1/listings/:id
+// @access  Private
+export const editListing = asyncHandler(async (req, res, next) => {
+  // console.log("Listing data:", req.body.listingData);
+  // console.log("Images strings:", req.body.imagesStrs, "User:", req.user);
+
+  const listing = await Listing.findById(req.params.id);
+
+  if (!listing) {
+    return next(new NotFoundError("Listing not found"));
+  }
+
+  if (req.user._id !== listing.user._id) {
+    return next(new UnAuthorizedError("Unauthorized to edit this listing"));
+  }
+
+  console.log(req);
+  res.status(200).json({ success: true });
+
+  // const images = [];
+  // const cloudinary_ids = [];
+
+  // const files = req.body.imagesStrs;
+  // const { urls, types } = files;
+
+  // // check if every uploaded file is image
+  // const areTypesGood = types.map((type) => {
+  //   if (type.startsWith("image")) {
+  //     return true;
+  //   }
+  //   return false;
+  // });
+
+  // if (!areTypesGood.includes(false)) {
+  //   // wait for all images to upload then execute rest part of code
+  //   await Promise.all(
+  //     urls.map(async (url) => {
+  //       let uploadedResponse = await cloudinary.uploader.upload(url, {
+  //         upload_preset: "real-estates",
+  //       });
+  //       images.push(uploadedResponse.secure_url);
+  //       cloudinary_ids.push(uploadedResponse.public_id);
+  //     })
+  //   );
+
+  //   listing.images = images;
+  //   listing.cloudinary_ids = cloudinary_ids;
+
+  //   // save listing
+  //   await listing.save();
+  //   res.status(201).json({ success: true, listing });
+  // } else {
+  //   listing.images = undefined;
+  //   listing.cloudinary_ids = undefined;
+  //   res.status(500).json({ success: true, error: "Could not upload images" });
+  // }
+});
+
+// @desc    Remove Listing Image
+// @route   DELETE /api/v1/listings/:id/images/:image_id
+// @access  Private
+export const removeListingImage = asyncHandler(async (req, res, next) => {
+  // console.log("Listing data:", req.body.listingData);
+  // console.log("Images strings:", req.body.imagesStrs, "User:", req.user);
+
+  const listing = await Listing.findById(req.params.id);
+
+  if (!listing) {
+    return next(new NotFoundError("Listing not found"));
+  }
+
+  if (req.user._id.toString() !== listing.user._id.toString()) {
+    return next(new UnAuthorizedError("Unauthorized to edit this listing"));
+  }
+
+  await cloudinary.uploader.destroy(req.params.image_id, async () => {
+    const cloudinary_ids_updated = listing.cloudinary_ids.filter(
+      (id) => id !== req.params.image_id
+    );
+
+    const images_updated = listing.images.filter(
+      (img) => !img.includes(req.params.image_id)
+    );
+
+    listing.cloudinary_ids = cloudinary_ids_updated;
+    listing.images = images_updated;
+
+    await listing.save();
+  });
+
+  res.status(200).json({ success: true });
+
+  // const images = [];
+  // const cloudinary_ids = [];
+
+  // const files = req.body.imagesStrs;
+  // const { urls, types } = files;
+
+  // // check if every uploaded file is image
+  // const areTypesGood = types.map((type) => {
+  //   if (type.startsWith("image")) {
+  //     return true;
+  //   }
+  //   return false;
+  // });
+
+  // if (!areTypesGood.includes(false)) {
+  //   // wait for all images to upload then execute rest part of code
+  //   await Promise.all(
+  //     urls.map(async (url) => {
+  //       let uploadedResponse = await cloudinary.uploader.upload(url, {
+  //         upload_preset: "real-estates",
+  //       });
+  //       images.push(uploadedResponse.secure_url);
+  //       cloudinary_ids.push(uploadedResponse.public_id);
+  //     })
+  //   );
+
+  //   listing.images = images;
+  //   listing.cloudinary_ids = cloudinary_ids;
+
+  //   // save listing
+  //   await listing.save();
+  //   res.status(201).json({ success: true, listing });
+  // } else {
+  //   listing.images = undefined;
+  //   listing.cloudinary_ids = undefined;
+  //   res.status(500).json({ success: true, error: "Could not upload images" });
+  // }
 });

@@ -1,9 +1,11 @@
 import express from "express";
 import {
   createListing,
+  editListing,
   getListing,
   getListings,
   getUserListings,
+  removeListingImage,
 } from "../controllers/listings.js";
 import { advacnedResponse } from "../middleware/advancedResponse.js";
 import { authenticate } from "../middleware/auth.js";
@@ -16,6 +18,7 @@ router
   .get(advacnedResponse(Listing), getListings)
   .post(authenticate, createListing);
 router.route("/user").get(authenticate, getUserListings);
-router.route("/:id").get(getListing);
+router.route("/:id/images/:image_id").delete(authenticate, removeListingImage);
+router.route("/:id").get(getListing).put(authenticate, editListing);
 
 export default router;

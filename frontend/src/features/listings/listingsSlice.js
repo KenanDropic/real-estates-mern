@@ -12,13 +12,13 @@ const initialState = {
   pages: 1,
   page: 1,
   pagination: null,
-  userListings: null,
   geolocation: {
     lat: null,
     lng: null,
   },
   description: "",
-  isLoded: false,
+  isFinished: false,
+  imageRemoved: false,
 };
 
 // get all listings
@@ -88,16 +88,52 @@ export const createListing = createAsyncThunk(
     }
   }
 );
+
+// edit listing
+export const editListing = createAsyncThunk(
+  "listings/edit",
+  async ([id, listingData], thunkAPI) => {
+    try {
+      const listingID = [id, listingData][0];
+      const listData = [id, listingData][1];
+      // const {
+      //   data: { listing },
+      // } =
+      await axiosAuth.put(`/api/v1/listings/${listingID}`, {
+        listData,
+      });
+      // return listing;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(errorMessage(error));
+    }
+  }
+);
+
+// remove listing image
+export const removeListingImage = createAsyncThunk(
+  "listings/edit",
+  async ([listingId, imageId], thunkAPI) => {
+    try {
+      const listing_id = [listingId, imageId][0];
+      const image_id = [listingId, imageId][1];
+      await axiosAuth.delete(
+        `/api/v1/listings/${listing_id}/images/${image_id}`
+      );
+      return;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(errorMessage(error));
+    }
+  }
+);
+
 const listingsSlice = createSlice({
   name: "listings",
   initialState,
   reducers: {
     setGeolocation: (state, action) => {
-      let lat = action.payload[0];
-      let lng = action.payload[1];
       state.geolocation = {
-        lat,
-        lng,
+        lat: action.payload[0],
+        lng: action.payload[1],
       };
     },
     setDescription: (state, action) => {
@@ -110,6 +146,7 @@ const listingsSlice = createSlice({
         state.loading = true;
       })
       .addCase(getListings.fulfilled, (state, action) => {
+        // eslint-disable-next-line
         const { count, data, page, pages, pagination } = action.payload;
         state.loading = false;
         state.error = "";
@@ -134,15 +171,18 @@ const listingsSlice = createSlice({
       })
       .addCase(getListing.pending, (state) => {
         state.loading = true;
+        state.isFinished = false;
       })
       .addCase(getListing.fulfilled, (state, action) => {
         state.loading = false;
         state.error = "";
         state.listing = action.payload;
+        state.isFinished = true;
       })
       .addCase(getListing.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+        state.isFinished = true;
       })
       .addCase(getUserListings.pending, (state) => {
         state.loading = true;
@@ -154,6 +194,20 @@ const listingsSlice = createSlice({
       })
       .addCase(getUserListings.rejected, (state, action) => {
         state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(removeListingImage.pending, (state) => {
+        state.isFinished = false;
+        state.imageRemoved = false;
+      })
+      .addCase(removeListingImage.fulfilled, (state) => {
+        state.isFinished = true;
+        state.imageRemoved = true;
+        state.error = "";
+      })
+      .addCase(removeListingImage.rejected, (state, action) => {
+        state.isFinished = true;
+        state.imageRemoved = true;
         state.error = action.payload;
       });
   },
