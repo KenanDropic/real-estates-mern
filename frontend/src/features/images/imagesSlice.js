@@ -8,11 +8,12 @@ const initialState = {
   error: "",
 };
 
-// upload image to cloudinary
+// upload profile image to cloudinary
 export const upload = createAsyncThunk(
   "images/upload",
   async (data, thunkAPI) => {
     try {
+      // eslint-disable-next-line
       const img = axiosAuth.post("/api/v1/auth/upload", { data });
       return;
     } catch (error) {
