@@ -1,9 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
+import { getCurrentUser } from "../../features/users/usersSlice";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
+
+  const dispatch = useDispatch();
+  const { token } = useSelector((state) => state.users);
+
+  // getting current user if token exist is ls. Value for token state comes from local storage.
+  useEffect(() => {
+    if (token !== "") {
+      dispatch(getCurrentUser());
+    }
+  }, [dispatch, token]);
 
   const matchPath = (route) => {
     if (route === location.pathname) {
@@ -19,21 +31,21 @@ const Navbar = () => {
           onClick={() => navigate("/")}
         >
           <i className="fas fa-compass"></i>
-          <span className="text">Pretraži</span>
+          <span className="text">Search</span>
         </li>
         <li
           className={matchPath("/ponude") ? "active" : "" ? "active" : ""}
           onClick={() => navigate("/ponude")}
         >
           <i className="fas fa-tag"></i>
-          <span className="text">Ponude</span>
+          <span className="text">Offers</span>
         </li>
         <li
           className={matchPath("/profile") ? "active" : "" ? "active" : ""}
           onClick={() => navigate("/profile")}
         >
           <i className="fas fa-user"></i>
-          <span className="text">Profil</span>
+          <span className="text">Profile</span>
         </li>
       </ul>
     </footer>

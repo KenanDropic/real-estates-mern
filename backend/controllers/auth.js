@@ -13,9 +13,9 @@ import { cloudinary } from "../utils/cloudinary.js";
 // @route   POST /api/v1/auth/register
 // @access  Public
 export const registerUser = asyncHandler(async (req, res, next) => {
-  const { name, email, password, role } = req.body;
+  const { name, email, password, phone } = req.body;
 
-  if (!name || !email || !password) {
+  if (!name || !email || !password || !phone) {
     return next(new BadRequestError("Please provide all values"), 400);
   }
 
@@ -108,17 +108,28 @@ export const uploadAvatar = asyncHandler(async (req, res, next) => {
   if (!user) {
     return next(new NotFoundError("User not found"));
   }
-  // first delete previous image based on old cloudinary_id,then upload new one and update cloudinary_id and avatar in db
+
+  // If it's user first upload,he will have cloudinary_id of undefined,so we just do upload picture. If it isn't his first upload,he will have valid cloudinary_id already stored,so we first destroy that cloudinary_id from cloudinary service and then we upload new image.
   try {
-    await cloudinary.uploader.destroy(req.user.cloudinary_id, async () => {
+    if (req.user.cloudinary_id !== undefined) {
+      await cloudinary.uploader.destroy(req.user.cloudinary_id, async () => {
+        const uploadedResponse = await cloudinary.uploader.upload(fileStr, {
+          upload_preset: "real-estates",
+        });
+        user.avatar = uploadedResponse.secure_url;
+        user.cloudinary_id = uploadedResponse.public_id;
+        await user.save();
+        res.status(201).json({ success: true, image: user.avatar });
+      });
+    } else {
       const uploadedResponse = await cloudinary.uploader.upload(fileStr, {
         upload_preset: "real-estates",
       });
       user.avatar = uploadedResponse.secure_url;
       user.cloudinary_id = uploadedResponse.public_id;
       await user.save();
-    });
-    res.status(201).json({ success: true });
+      res.status(201).json({ success: true, image: user.avatar });
+    }
   } catch (error) {
     res.status(500).json({ success: true, error: error.message });
   }

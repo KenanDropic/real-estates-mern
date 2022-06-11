@@ -5,8 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 // import VerifyEmailWarning from "./SendEmailVerification";
 import Spinner from "../components/Spinner";
 import { Alert, Col, Row } from "react-bootstrap";
-import { logout, updateUser } from "../features/users/usersSlice";
-import { upload } from "../features/images/imagesSlice";
+import { logout, updateUser, upload } from "../features/users/usersSlice";
 import { getUserListings } from "../features/listings/listingsSlice";
 import ListingItem from "../components/ListingItem";
 
@@ -18,15 +17,11 @@ const Profile = () => {
   const [previewSource, setPreviewSource] = useState("");
 
   const dispatch = useDispatch();
-  const {
-    userListings,
-    loading: listingsLoading,
-    error: listingsError,
-  } = useSelector((state) => state.listings);
-  const { user, loading, error } = useSelector((state) => state.users);
-  const { loading: imgLoading, error: imgError } = useSelector(
-    (state) => state.images
+  const navigate = useNavigate();
+  const { userListings, error: listingsError } = useSelector(
+    (state) => state.listings
   );
+  const { user, loading, error } = useSelector((state) => state.users);
 
   const {
     register,
@@ -36,28 +31,26 @@ const Profile = () => {
   } = useForm({
     defaultValues: {
       name: "",
+      email: "",
       phone: "",
       imageURL: "",
     },
   });
 
-  const navigate = useNavigate();
-
   useEffect(() => {
-    dispatch(getUserListings());
     if (user) {
+      dispatch(getUserListings());
       const defaults = {
         name: user.name,
         email: user.email,
         phone: user.phone,
-        imageURL: user.avatar,
+        imageURL: user?.avatar === undefined ? "" : user.avatar,
       };
       reset(defaults);
     }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line
   }, [user]);
-  useEffect(() => {}, []);
 
   const onSubmit = async (data) => {
     dispatch(updateUser(data));
@@ -102,15 +95,11 @@ const Profile = () => {
     setIsImagePosted(false);
   };
 
-  if (imgLoading) {
-    return <Spinner />;
-  }
-
   return loading ? (
     <Spinner />
-  ) : error ? (
+  ) : error || listingsError ? (
     <Alert type="info" variant="info">
-      {error}
+      {error || listingsError}
     </Alert>
   ) : (
     <div className="profileContainer">
@@ -135,7 +124,8 @@ const Profile = () => {
           <div
             className="profilePhotoDiv"
             style={{
-              backgroundImage: `url(${user?.avatar})`,
+              backgroundImage:
+                user?.avatar === undefined ? "" : `url(${user.avatar})`,
               backgroundRepeat: "no-repeat",
               backgroundSize: "cover",
               backgroundPosition: "center",
@@ -260,7 +250,8 @@ const Profile = () => {
         <p className="yourListings">Your listings</p>
       </main>
       <div className="yourListingsContainer">
-        {userListings !== undefined &&
+        {userListings?.length > 0 &&
+          userListings !== undefined &&
           userListings?.map((listing, idx) => (
             <ListingItem
               key={idx}
