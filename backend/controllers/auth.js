@@ -8,6 +8,7 @@ import {
 } from "../utils/errorResponse.js";
 import crypto from "crypto";
 import { cloudinary } from "../utils/cloudinary.js";
+import sendEmail from "../utils/sendEmail.js";
 
 // @desc    Register User
 // @route   POST /api/v1/auth/register
@@ -25,9 +26,32 @@ export const registerUser = asyncHandler(async (req, res, next) => {
     return next(new BadRequestError("User already exists"), 400);
   }
 
-  const user = await new User(req.body).save();
+  const user = await new User(req.body);
 
-  sendTokenResponse(user, 201, res, "");
+  const verificationToken = user.generateVerificationToken();
+
+  // frontend url. When user hits this url,we will make request from frontend to backend url(/api/v1/auth/confirmEmail?token=...) to confirm email.
+  const url = `${req.protocol}://localhost:3000/confirmEmail?token=${verificationToken}`; // - prod mode
+  // const url = `${req.protocol}://localhost:3000/confirmEmail?token=${verificationToken}`; - dev mode
+
+  user.save({ validateBeforeSave: false });
+
+  try {
+    await sendEmail({
+      email: user.email,
+      subject: "Email confirmation",
+      html: `<h4>${user.name},thanks for registration. We are glad to have you with us.</h4> Click here <a href="${url}"<a/> to confirm your email address.`,
+    });
+  } catch (error) {
+    user.confirmEmailToken = undefined;
+    user.confirmEmailExpire = undefined;
+
+    await user.save({ validateBeforeSave: false });
+
+    return next(new ErrorResponse("Email could not be sent"));
+  }
+
+  sendTokenResponse(user, 201, res, `Email sent to ${user.email}`);
 });
 
 // @desc    Login User
@@ -46,13 +70,17 @@ export const loginUser = asyncHandler(async (req, res, next) => {
     return next(new NotFoundError("User not found"));
   }
 
+  if (!user.isEmailConfirmed) {
+    return next(new UnAuthenticatedError("Please confirm your email to login"));
+  }
+
   const match = await user.matchPasswords(password);
 
   if (!match) {
     return next(new UnAuthenticatedError("Invalid credentials"));
   }
 
-  sendTokenResponse(user, 200, res, "");
+  sendTokenResponse(user, 200, res);
 });
 
 // @desc    Get current user
@@ -133,6 +161,43 @@ export const uploadAvatar = asyncHandler(async (req, res, next) => {
   } catch (error) {
     res.status(500).json({ success: true, error: error.message });
   }
+});
+
+// @desc    Verfiy Account
+// @route   GET /api/v1/auth/confirmEmail
+// @access  Public
+export const confirmEmail = asyncHandler(async (req, res, next) => {
+  const { token } = req.query;
+
+  if (!token) {
+    return next(new BadRequestError("Invalid token"));
+  }
+
+  const splitToken = token.split(".")[0];
+
+  // Get hashed token
+  const confirmEmailToken = crypto
+    .createHash("sha256")
+    .update(splitToken)
+    .digest("hex");
+
+  const user = await User.findOne({
+    confirmEmailToken,
+    confirmEmailExpire: { $gt: Date.now() },
+  });
+
+  if (!user) {
+    return next(new BadRequestError("Invalid token"));
+  }
+
+  // set isVerified to true
+  user.isEmailConfirmed = true;
+  user.confirmEmailToken = undefined;
+  user.confirmEmailExpire = undefined;
+
+  await user.save({ validateBeforeSave: false });
+
+  sendTokenResponse(user, 200, res);
 });
 
 // send token as response

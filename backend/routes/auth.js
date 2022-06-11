@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  confirmEmail,
   getLoggedUser,
   loginUser,
   registerUser,
@@ -15,5 +16,6 @@ router.route("/login").post(loginUser);
 router.route("/me").get(authenticate, getLoggedUser);
 router.route("/upload").post(authenticate, uploadAvatar);
 router.route("/").put(authenticate, updateUser);
+router.get("/confirmEmail", confirmEmail);
 
 export default router;

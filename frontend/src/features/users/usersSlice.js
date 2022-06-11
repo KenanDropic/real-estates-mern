@@ -93,6 +93,17 @@ export const upload = createAsyncThunk(
   }
 );
 
+export const confirmEmail = createAsyncThunk(
+  "users/confirmEmail",
+  async (emailToken, thunkAPI) => {
+    try {
+      await axios.get(`/api/v1/auth/confirmEmail?token=${emailToken}`);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(errorMessage(error));
+    }
+  }
+);
+
 const usersSlice = createSlice({
   name: "users",
   initialState,
@@ -166,6 +177,16 @@ const usersSlice = createSlice({
         toast.success("Profile photo uploaded successfully");
       })
       .addCase(upload.rejected, (state, action) => {
+        state.error = action.payload;
+        state.loading = false;
+      })
+      .addCase(confirmEmail.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(confirmEmail.fulfilled, (state, action) => {
+        state.loading = false;
+      })
+      .addCase(confirmEmail.rejected, (state, action) => {
         state.error = action.payload;
         state.loading = false;
       });
