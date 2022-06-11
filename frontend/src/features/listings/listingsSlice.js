@@ -17,8 +17,9 @@ const initialState = {
     lng: null,
   },
   description: "",
-  isFinished: false,
   imageRemoved: false,
+  isEdited: false,
+  isMounted: false,
 };
 
 // get all listings
@@ -92,17 +93,19 @@ export const createListing = createAsyncThunk(
 // edit listing
 export const editListing = createAsyncThunk(
   "listings/edit",
-  async ([id, listingData], thunkAPI) => {
+  async ([lis_id, lis_data, img_inf], thunkAPI) => {
     try {
-      const listingID = [id, listingData][0];
-      const listData = [id, listingData][1];
-      // const {
-      //   data: { listing },
-      // } =
-      await axiosAuth.put(`/api/v1/listings/${listingID}`, {
-        listData,
+      const listingID = [lis_id, lis_data, img_inf][0];
+      const listingAndImages = {
+        listingData: [lis_id, lis_data, img_inf][1],
+        imagesInfo: [lis_id, lis_data, img_inf][2],
+      };
+      const {
+        data: { listing },
+      } = await axiosAuth.put(`/api/v1/listings/${listingID}`, {
+        listingAndImages,
       });
-      // return listing;
+      return listing;
     } catch (error) {
       return thunkAPI.rejectWithValue(errorMessage(error));
     }
@@ -111,7 +114,7 @@ export const editListing = createAsyncThunk(
 
 // remove listing image
 export const removeListingImage = createAsyncThunk(
-  "listings/edit",
+  "listings/removeListingImage",
   async ([listingId, imageId], thunkAPI) => {
     try {
       const listing_id = [listingId, imageId][0];
@@ -138,6 +141,12 @@ const listingsSlice = createSlice({
     },
     setDescription: (state, action) => {
       state.description = action.payload;
+    },
+    resetIsEdited: (state) => {
+      state.isEdited = false;
+    },
+    resetListing: () => {
+      return initialState;
     },
   },
   extraReducers(builder) {
@@ -171,18 +180,18 @@ const listingsSlice = createSlice({
       })
       .addCase(getListing.pending, (state) => {
         state.loading = true;
-        state.isFinished = false;
+        state.isMounted = false;
       })
       .addCase(getListing.fulfilled, (state, action) => {
         state.loading = false;
         state.error = "";
         state.listing = action.payload;
-        state.isFinished = true;
+        state.isMounted = true;
       })
       .addCase(getListing.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
-        state.isFinished = true;
+        state.isMounted = true;
       })
       .addCase(getUserListings.pending, (state) => {
         state.loading = true;
@@ -197,17 +206,33 @@ const listingsSlice = createSlice({
         state.error = action.payload;
       })
       .addCase(removeListingImage.pending, (state) => {
-        state.isFinished = false;
+        state.loading = true;
         state.imageRemoved = false;
       })
       .addCase(removeListingImage.fulfilled, (state) => {
-        state.isFinished = true;
         state.imageRemoved = true;
         state.error = "";
+        state.loading = false;
       })
       .addCase(removeListingImage.rejected, (state, action) => {
-        state.isFinished = true;
-        state.imageRemoved = true;
+        state.loading = false;
+        state.imageRemoved = false;
+        state.error = action.payload;
+      })
+      .addCase(editListing.pending, (state) => {
+        state.loading = true;
+        state.isEdited = false;
+      })
+      .addCase(editListing.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = "";
+        state.isEdited = true;
+        state.listing = action.payload;
+        toast.success("Listing updated successfully");
+      })
+      .addCase(editListing.rejected, (state, action) => {
+        state.loading = false;
+        state.isEdited = true;
         state.error = action.payload;
       });
   },
@@ -223,6 +248,7 @@ const errorMessage = (error) => {
   return message;
 };
 
-export const { setGeolocation, setDescription } = listingsSlice.actions;
+export const { setGeolocation, setDescription, resetIsEdited, resetListing } =
+  listingsSlice.actions;
 
 export default listingsSlice.reducer;
