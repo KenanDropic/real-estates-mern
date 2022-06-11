@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Spinner from "../components/Spinner";
-import { Button, Col, Container, Form, Row } from "react-bootstrap";
+import { Alert, Button, Col, Container, Form, Row } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../features/users/usersSlice";
 
 const SignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -17,9 +19,6 @@ const SignIn = () => {
   const {
     register,
     handleSubmit,
-    reset,
-    getValues,
-    setError,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -27,9 +26,25 @@ const SignIn = () => {
       password: "",
     },
   });
-  const navigate = useNavigate();
 
-  useEffect(() => {}, []);
+  // redux stuff
+  const dispatch = useDispatch();
+  const { user, loading, error } = useSelector((state) => state.users);
+
+  // navigaton
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/profile";
+
+  useEffect(() => {
+    if (user) {
+      if (!loading) {
+        return navigate(from, { replace: true });
+      }
+    }
+    // eslint-disable-next-line
+  }, [user]);
+
   const togglePassword = () => setShowPassword(!showPassword);
 
   const checkPasswordPolicies = (e) => {
@@ -97,12 +112,13 @@ const SignIn = () => {
   };
 
   //what happens after submit
-  const onSubmit = async (data) => {};
+  const onSubmit = (data) => {
+    dispatch(login(data));
+  };
 
-  //   return loading ? (
-  //     <Spinner />
-  //   ) :
-  return (
+  return loading ? (
+    <Spinner />
+  ) : (
     <Container fluid="md" className="mt-5">
       <Row className="align-items-center text-center">
         <Col xs="12" sm="12">
@@ -119,6 +135,11 @@ const SignIn = () => {
       </Row>
       <main>
         <Container>
+          {error && (
+            <Alert variant="danger" type="danger">
+              {error}
+            </Alert>
+          )}
           <Row className="justify-content-center">
             <Col xs={12} sm={10} md={8} lg={7} xl={5}>
               <Form onSubmit={handleSubmit(onSubmit)}>
@@ -145,7 +166,6 @@ const SignIn = () => {
                 <Form.Group className="frm-el">
                   <Form.Label htmlFor="password">Password</Form.Label>
                   <Form.Control
-                    name="password"
                     {...register("password", {
                       required: "Field is required",
                       pattern: {
@@ -155,10 +175,10 @@ const SignIn = () => {
                         message:
                           "Password must contain at least 6 characters,uppercase and lowercase letter,special character and one number",
                       },
+                      onChange: (e) => checkPasswordPolicies(e),
+                      onFocus: () => setShowPolicies(true),
+                      onBlur: () => setShowPolicies(false),
                     })}
-                    onFocus={() => setShowPolicies(true)}
-                    onBlur={() => setShowPolicies(false)}
-                    onChange={(e) => checkPasswordPolicies(e)}
                     type={showPassword ? "text" : "password"}
                   />
                   <div
@@ -172,57 +192,55 @@ const SignIn = () => {
                       onClick={() => togglePassword()}
                     />
                   </div>
+                </Form.Group>
+                <span style={{ color: "red" }}>{errors.password?.message}</span>
+                <div
+                  className={`password-policies ${
+                    showPolicies ? "active" : ""
+                  }`}
+                >
                   <div
-                    className={`password-policies ${
-                      showPolicies ? "active" : ""
+                    className={`policy-length ${
+                      policies.length ? "active" : ""
                     }`}
                   >
-                    <div
-                      className={`policy-length ${
-                        policies.length ? "active" : ""
-                      }`}
-                    >
-                      6 Characters
-                    </div>
-                    <div
-                      className={`policy-number ${
-                        policies.number ? "active" : ""
-                      }`}
-                    >
-                      Contains Number
-                    </div>
-                    <div
-                      className={`policy-uppercase ${
-                        policies.uppercase ? "active" : ""
-                      }`}
-                    >
-                      Contains Uppercase
-                    </div>
-                    <div
-                      className={`policy-lowercase ${
-                        policies.lowercase ? "active" : ""
-                      }`}
-                    >
-                      Contains Lowercase
-                    </div>
-                    <div
-                      className={`policy-special ${
-                        policies.special ? "active" : ""
-                      }`}
-                    >
-                      Contains Special Character
-                    </div>
+                    6 Characters
                   </div>
-                  <span style={{ color: "red" }}>
-                    {errors.password?.message}
-                  </span>
-                </Form.Group>
+                  <div
+                    className={`policy-number ${
+                      policies.number ? "active" : ""
+                    }`}
+                  >
+                    Contains Number
+                  </div>
+                  <div
+                    className={`policy-uppercase ${
+                      policies.uppercase ? "active" : ""
+                    }`}
+                  >
+                    Contains Uppercase
+                  </div>
+                  <div
+                    className={`policy-lowercase ${
+                      policies.lowercase ? "active" : ""
+                    }`}
+                  >
+                    Contains Lowercase
+                  </div>
+                  <div
+                    className={`policy-special ${
+                      policies.special ? "active" : ""
+                    }`}
+                  >
+                    Contains Special Character
+                  </div>
+                </div>
 
                 <Link to="/forgot-password" className="forgotPassword">
                   Forgot Password
                 </Link>
                 <Row style={{ padding: "0px 30%" }}>
-                  <Button type="submit" className="btn btn-primary" disabled>
+                  <Button type="submit" className="btn btn-primary">
                     Sign In
                   </Button>
                 </Row>

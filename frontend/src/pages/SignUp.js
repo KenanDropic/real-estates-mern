@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { Button, Col, Container, Form, Row } from "react-bootstrap";
+import { Alert, Button, Col, Container, Form, Row } from "react-bootstrap";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Spinner from "../components/Spinner";
 import { useDispatch, useSelector } from "react-redux";
+import { registerUser } from "../features/users/usersSlice";
 
 const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -16,23 +17,36 @@ const SignUp = () => {
     number: false,
   });
 
+  const dispatch = useDispatch();
+  const { loading, error, user } = useSelector((state) => state.users);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
-    getValues,
   } = useForm({
     defaultValues: {
-      username: "",
+      name: "",
       email: "",
       password: "",
       phone: "",
     },
   });
-  useEffect(() => {}, []);
 
   const togglePassword = () => setShowPassword(!showPassword);
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/profile";
+
+  useEffect(() => {
+    if (user) {
+      if (!loading) {
+        return navigate(from, { replace: true });
+      }
+    }
+    // eslint-disable-next-line
+  }, [user, from, navigate]);
 
   const checkPasswordPolicies = (e) => {
     const password = e.target.value;
@@ -99,12 +113,13 @@ const SignUp = () => {
   };
 
   //what happens after submit
-  const onSubmit = async () => {};
+  const onSubmit = (data) => {
+    dispatch(registerUser(data));
+  };
 
-  //   return loading ? (
-  //     <Spinner />
-  //   ) :
-  return (
+  return loading ? (
+    <Spinner />
+  ) : (
     <Container fluid="md" className="mt-5">
       <Row className="align-items-center text-center">
         <Col xs="12" sm="12">
@@ -122,13 +137,18 @@ const SignUp = () => {
       <main>
         <Container>
           <Row className="justify-content-center">
+            {error && (
+              <Alert type="danger" variant="danger">
+                {error}
+              </Alert>
+            )}
             <Col xs={12} sm={10} md={8} lg={7} xl={5}>
               <Form onSubmit={handleSubmit(onSubmit)}>
                 <Form.Group>
                   <Form.Label>Username</Form.Label>
                   <Form.Control
-                    name="username"
-                    {...register("username", {
+                    name="name"
+                    {...register("name", {
                       required: "Field is required",
                       minLength: {
                         value: 3,
@@ -143,7 +163,7 @@ const SignUp = () => {
                     type="text"
                   />
                 </Form.Group>
-                <span style={{ color: "red" }}>{errors.username?.message}</span>
+                <span style={{ color: "red" }}>{errors.name?.message}</span>
 
                 <Form.Group>
                   <Form.Label>Phone Number</Form.Label>
@@ -194,10 +214,10 @@ const SignUp = () => {
                         message:
                           "Password must contain at least 6 characters,uppercase and lowercase letter,special character and one number",
                       },
+                      onFocus: () => setShowPolicies(true),
+                      onBlur: () => setShowPolicies(false),
+                      onChange: (e) => checkPasswordPolicies(e),
                     })}
-                    onFocus={() => setShowPolicies(true)}
-                    onBlur={() => setShowPolicies(false)}
-                    onChange={(e) => checkPasswordPolicies(e)}
                     type={showPassword ? "text" : "password"}
                   />
                   <div
@@ -256,7 +276,7 @@ const SignUp = () => {
                 <span style={{ color: "red" }}>{errors.password?.message}</span>
                 <div className="forgotPassword">Forgot Password</div>
                 <Row style={{ padding: "0px 30%" }}>
-                  <Button type="submit" className="btn  btn-primary" disabled>
+                  <Button type="submit" className="btn  btn-primary">
                     Sign Up
                   </Button>
                 </Row>
