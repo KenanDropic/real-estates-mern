@@ -12,6 +12,11 @@ const initialState = {
   pages: 1,
   page: 1,
   pagination: null,
+  priceFrom: 0,
+  priceTo: null,
+  surfaceFrom: 15,
+  surfaceTo: null,
+  searchKeyword: "",
   geolocation: {
     lat: null,
     lng: null,
@@ -25,10 +30,41 @@ const initialState = {
 // get all listings
 export const getListings = createAsyncThunk(
   "listings/get",
-  async ([category], thunkAPI) => {
+  async (url_data, thunkAPI) => {
     try {
-      let type = [category][0];
+      let type = url_data[0];
+      let search_word = url_data[1];
+      let city = url_data[2];
+      let min_price = url_data[3];
+      let max_price = url_data[4];
+      let min_surface = url_data[5];
+      let max_surface = url_data[6];
+      console.log(url_data);
       let url = `/api/v1/listings?type=${type}`;
+
+      if (city !== undefined && city !== "") {
+        url = url + `&city=${city}`;
+      }
+
+      if (search_word !== "") {
+        url = url + `&search=${search_word}`;
+      }
+
+      if (min_price !== null && min_price !== 0 && min_price !== "") {
+        url = url + `&regularPrice[gte]=${min_price}`;
+      }
+
+      if (max_price !== null && max_price !== 0 && max_price !== "") {
+        url = url + `&regularPrice[lte]=${max_price}`;
+      }
+
+      if (min_surface !== "" && min_surface !== null) {
+        url = url + `&surface[gte]=${min_surface}`;
+      }
+
+      if (max_surface !== "" && max_surface !== null) {
+        url = url + `&surface[lte]=${max_surface}`;
+      }
 
       const { data } = await axios.get(url);
       return data;
@@ -145,6 +181,27 @@ const listingsSlice = createSlice({
     resetIsEdited: (state) => {
       state.isEdited = false;
     },
+    resetImageRemoved: (state) => {
+      state.imageRemoved = false;
+    },
+    setSearchKeyword: (state, action) => {
+      state.searchKeyword = action.payload;
+    },
+    setCity: (state, action) => {
+      state.city = action.payload;
+    },
+    setPriceFrom: (state, action) => {
+      state.priceFrom = action.payload;
+    },
+    setPriceTo: (state, action) => {
+      state.priceTo = action.payload;
+    },
+    setSurfaceFrom: (state, action) => {
+      state.surfaceFrom = action.payload;
+    },
+    setSurfaceTo: (state, action) => {
+      state.surfaceTo = action.payload;
+    },
     resetListing: () => {
       return initialState;
     },
@@ -186,6 +243,7 @@ const listingsSlice = createSlice({
         state.loading = false;
         state.error = "";
         state.listing = action.payload;
+        state.imageRemoved = false;
         state.isMounted = true;
       })
       .addCase(getListing.rejected, (state, action) => {
@@ -248,7 +306,18 @@ const errorMessage = (error) => {
   return message;
 };
 
-export const { setGeolocation, setDescription, resetIsEdited, resetListing } =
-  listingsSlice.actions;
+export const {
+  setGeolocation,
+  setDescription,
+  resetIsEdited,
+  resetListing,
+  resetImageRemoved,
+  setSearchKeyword,
+  setCity,
+  setPriceFrom,
+  setPriceTo,
+  setSurfaceFrom,
+  setSurfaceTo,
+} = listingsSlice.actions;
 
 export default listingsSlice.reducer;

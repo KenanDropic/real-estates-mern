@@ -1,10 +1,6 @@
 import Listing from "../models/Listing.js";
 import asyncHandler from "express-async-handler";
-import {
-  BadRequestError,
-  NotFoundError,
-  UnAuthorizedError,
-} from "../utils/errorResponse.js";
+import { NotFoundError, UnAuthorizedError } from "../utils/errorResponse.js";
 import { cloudinary } from "../utils/cloudinary.js";
 
 // @desc    Get Listings
@@ -54,8 +50,8 @@ export const createListing = asyncHandler(async (req, res, next) => {
     user: req.user.id,
   });
 
-  const images = [];
-  const cloudinary_ids = [];
+  let images = [];
+  let cloudinary_ids = [];
 
   const files = req.body.imagesStrs;
   const { urls, types } = files;
@@ -85,6 +81,8 @@ export const createListing = asyncHandler(async (req, res, next) => {
 
     // save listing
     await listing.save();
+    images = [];
+    cloudinary_ids = [];
     res.status(201).json({ success: true, listing });
   } else {
     listing.images = undefined;
