@@ -79,4 +79,37 @@ UserSchema.methods.getSignedJWT = function () {
   });
 };
 
+// confirm email token
+UserSchema.methods.generateVerificationToken = function (next) {
+  const emailToken = crypto.randomBytes(20).toString("hex");
+
+  this.confirmEmailToken = crypto
+    .createHash("sha256")
+    .update(emailToken)
+    .digest("hex");
+
+  const emailTokenExtend = crypto.randomBytes(100).toString("hex");
+  const confirmTokenCombined = `${emailToken}.${emailTokenExtend}`;
+
+  this.confirmEmailExpire = Date.now() + 10 * 60 * 1000;
+
+  return confirmTokenCombined;
+};
+
+// Generate and hash password token for resset password
+UserSchema.methods.getResetPasswordToken = function () {
+  const resetToken = crypto.randomBytes(20).toString("hex");
+
+  this.resetPasswordToken = crypto
+    .createHash("sha256")
+    .update(resetToken)
+    .digest("hex");
+
+  // Set expire time to 10 minutes
+  this.resetPasswordExpire = Date.now() + 10 * 60 * 1000;
+
+  //vraćamo resetToken which is not hashed
+  return resetToken;
+};
+
 export default mongoose.model("User", UserSchema);

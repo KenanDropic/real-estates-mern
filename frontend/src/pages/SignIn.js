@@ -236,7 +236,7 @@ const SignIn = () => {
                   </div>
                 </div>
 
-                <Link to="/forgot-password" className="forgotPassword">
+                <Link to="/forgotPassword" className="forgotPassword">
                   Forgot Password
                 </Link>
                 <Row style={{ padding: "0px 30%" }}>

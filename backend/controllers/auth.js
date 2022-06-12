@@ -1,8 +1,8 @@
-import mongoose from "mongoose";
 import User from "../models/User.js";
 import asyncHandler from "express-async-handler";
 import {
   BadRequestError,
+  InternalServerError,
   NotFoundError,
   UnAuthenticatedError,
 } from "../utils/errorResponse.js";
@@ -198,6 +198,77 @@ export const confirmEmail = asyncHandler(async (req, res, next) => {
   await user.save({ validateBeforeSave: false });
 
   sendTokenResponse(user, 200, res);
+});
+
+// @desc    Forgot password
+// @route   POST /api/v1/auth/forgotPassword
+// @access  Public
+export const forgotPassword = asyncHandler(async (req, res, next) => {
+  const user = await User.findOne({ email: req.body.email });
+
+  if (!user) {
+    return next(new NotFoundError(`There is no user with that email`));
+  }
+
+  // Get reset token
+  const resetToken = user.getResetPasswordToken();
+
+  // Snimanje usera u bazu
+  await user.save({ validateBeforeSave: false });
+
+  // Create reset url
+  const resetUrl = `${req.protocol}://localhost:3000/resetPassword?resetToken=${resetToken}`;
+
+  // sending email via sendEmail fnction
+  try {
+    await sendEmail({
+      email: user.email,
+      subject: "Password reset token",
+      html: `<h4> You are receiving this email because you (or someone else) has requested the reset of password.</h4> Please click <a href="${resetUrl}"> here </a> to navigate to reset password page. `,
+    });
+    res.status(200).json({ success: true });
+  } catch (error) {
+    console.log(error);
+
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpire = undefined;
+    await user.save({ validateBeforeSave: false });
+    return next(new InternalServerError("Email could not be sent"));
+  }
+});
+
+// @desc    Reset password
+// @route   PUT /api/v1/auth/resetPassword?resetToken
+// @access  Public
+export const resetPassword = asyncHandler(async (req, res, next) => {
+  const { resetToken } = req.query;
+
+  console.log(req.body);
+
+  // // Get hashed token
+  // const resetPasswordToken = crypto
+  //   .createHash("sha256")
+  //   .update(resetToken)
+  //   .digest("hex");
+
+  // const user = await User.findOne({
+  //   resetPasswordToken,
+  //   resetPasswordExpire: { $gt: Date.now() },
+  // });
+
+  // if (!user) {
+  //   return next(new BadRequestError(`Invalid token`), 400);
+  // }
+
+  // // Set new password
+  // user.password = req.body.password;
+  // user.resetPasswordToken = undefined;
+  // user.resetPasswordExpire = undefined;
+
+  // // Snimanje usera u bazu
+  // await user.save();
+
+  // sendTokenResponse(user, 200, res);
 });
 
 // send token as response

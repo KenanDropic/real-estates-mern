@@ -274,7 +274,7 @@ const SignUp = () => {
                   </div>
                 </div>
                 <span style={{ color: "red" }}>{errors.password?.message}</span>
-                <div className="forgotPassword">Forgot Password</div>
+                <Link to="/forgotPassword" className="forgotPassword">Forgot Password</Link>
                 <Row style={{ padding: "0px 30%" }}>
                   <Button type="submit" className="btn  btn-primary">
                     Sign Up

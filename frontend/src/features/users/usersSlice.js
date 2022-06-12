@@ -12,6 +12,8 @@ const initialState = {
   token: tokenFromStorage,
   loading: false,
   error: "",
+  isEmailSent: false,
+  isPassword: false,
 };
 
 // login user
@@ -93,11 +95,42 @@ export const upload = createAsyncThunk(
   }
 );
 
+// confirm email
 export const confirmEmail = createAsyncThunk(
   "users/confirmEmail",
   async (emailToken, thunkAPI) => {
     try {
       await axios.get(`/api/v1/auth/confirmEmail?token=${emailToken}`);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(errorMessage(error));
+    }
+  }
+);
+
+// forgot password,send email with reset password link
+export const forgotPassword = createAsyncThunk(
+  "users/forgotPassword",
+  async (email, thunkAPI) => {
+    try {
+      await axios.post(`/api/v1/auth/forgotPassword`, email);
+      return;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(errorMessage(error));
+    }
+  }
+);
+
+// reset password
+export const resetPassword = createAsyncThunk(
+  "users/resetPassword",
+  async ([newPassword, token], thunkAPI) => {
+    try {
+      const password = [newPassword, token][0];
+      const reset_token = [newPassword, token][1];
+      await axios.put(`/api/v1/auth/resetPassword?resetToken=${reset_token}`, {
+        password,
+      });
+      return;
     } catch (error) {
       return thunkAPI.rejectWithValue(errorMessage(error));
     }
@@ -112,6 +145,12 @@ const usersSlice = createSlice({
       localStorage.removeItem("token");
       toast.success("User logout successfully");
       return initialState;
+    },
+    resetEmailSentState: (state) => {
+      state.isEmailSent = false;
+    },
+    resetIsPassword: (state) => {
+      state.isPassword = false;
     },
   },
   extraReducers(builder) {
@@ -189,6 +228,32 @@ const usersSlice = createSlice({
       .addCase(confirmEmail.rejected, (state, action) => {
         state.error = action.payload;
         state.loading = false;
+      })
+      .addCase(forgotPassword.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(forgotPassword.fulfilled, (state) => {
+        state.loading = false;
+        state.error = "";
+        state.isEmailSent = true;
+        toast.success("Email sent successfully");
+      })
+      .addCase(forgotPassword.rejected, (state, action) => {
+        state.error = action.payload;
+        state.loading = false;
+      })
+      .addCase(resetPassword.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(resetPassword.fulfilled, (state) => {
+        state.loading = false;
+        state.error = "";
+        state.isPassword = true;
+        toast.success("Password reseted successfully");
+      })
+      .addCase(resetPassword.rejected, (state, action) => {
+        state.error = action.payload;
+        state.loading = false;
       });
   },
 });
@@ -203,6 +268,7 @@ const errorMessage = (error) => {
   return message;
 };
 
-export const { logout } = usersSlice.actions;
+export const { logout, resetEmailSentState, resetIsPassword } =
+  usersSlice.actions;
 
 export default usersSlice.reducer;
