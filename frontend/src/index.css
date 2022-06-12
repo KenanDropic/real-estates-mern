@@ -460,70 +460,32 @@ input.allowChange {
   margin-top: 20px;
 }
 /* FORGOT PASSWORD PAGE */
-.forgotPasswordPage {
-  text-align: center;
-  width: 85%;
-  margin: 3.5rem;
-  background-color: rgba(0, 0, 0, 0.1);
-  padding: 25px;
-  position: relative;
-  border-radius: 45px;
-}
-.forgotPasswordPage p {
-  font-weight: 700;
-}
-.forgotPasswordPage i {
-  position: absolute;
-  top: -7%;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 30px;
-}
-.resetBtn {
-  margin-top: 15px;
-}
 .footerForgotPassword {
   margin-top: 40px;
   display: flex;
   justify-content: space-between;
 }
-/* RESET  PASSWORD PAGE  */
-.resetPasswordContainer {
-  display: flex;
-  justify-content: center;
-}
-.resetPasswordPage {
-  margin: 3.5rem;
-  width: 80%;
-  background-color: rgba(0, 0, 0, 0.1);
-  padding: 25px;
-  border-radius: 45px;
-}
-.resetPasswordHeader {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 20px;
-}
-.resetPasswordHeader span {
-  font-size: 32px;
-  margin-right: 10px;
+.footerForgotPassword a {
+  text-decoration:  none;
   font-weight: 600;
 }
-.resetPasswordHeader i {
-  font-size: 26px;
-}
-.resetPasswordForm {
-  text-align: center;
-}
-.resetPasswordForm label {
-  text-align: left;
-}
+/* RESET PASSWORD PAGE  */
 .resetPasswordForm span {
   display: block;
   text-align: left;
   font-size: 14px;
   margin-bottom: 20px;
+}
+.showHidePassword{
+  position: relative;
+}
+.showHidePassword i {
+  position: absolute;
+  top: 50%;
+  right: 2%;
+  transform: translateY(-50%);
+  font-size: 22px;
+  cursor: pointer;
 }
 
 /* SEARCH COMPONENT STYLING*/
@@ -773,7 +735,7 @@ input[type="number"] {
   margin-right: 15px;
 }
 .groupOfNumberInputs {
-  width: 35%;
+  width: 45%;
 }
 .groupOfNumberInputs input {
   padding: 6px 10px;
