@@ -505,13 +505,15 @@ input.allowChange {
 .category-page {
   margin-bottom: -250px;
   transform: translateX(-150%);
-  transition: all 0.7s ease-in;
+  transition: all 0.3s ease-in;
+  padding: 0px 15px;
 }
 .category-page.active {
   display: block;
-  transition: all 0.7s ease-in;
+  transition: all 0.3s ease-in;
   margin-bottom: 0px;
   transform: translateX(0);
+  opacity: 1;
 }
 .category-page form i {
   margin-right: 5px;
@@ -532,25 +534,6 @@ input.allowChange {
   cursor: pointer;
   width: 20px;
 }
-.keywordsAndCity {
-  display: flex;
-  width: 100%;
-}
-.keywords-input-wrapper {
-  margin-right: 15px;
-}
-.keywords-input-wrapper,
-.city-input-wrapper {
-  flex: 1;
-}
-.price,
-.surface {
-  display: flex;
-}
-.price input:nth-of-type(1),
-.surface input:nth-of-type(1) {
-  margin-right: 15px;
-}
 
 /* GRID SYSTEM */
 .category-listing-item,
@@ -563,7 +546,8 @@ input.allowChange {
   margin-bottom: 100px;
 }
 .category-listing-item {
-  padding: 5px 0px 0px 5px;
+  /* padding: 5px 0px 0px 5px; */
+  /* padding: ; */
 }
 .yourListingsContainer {
   padding: 5px 0px 70px 5px;
@@ -576,8 +560,8 @@ input.allowChange {
   cursor: pointer;
   position: relative;
   transition: transform 0.2s ease;
-  margin-bottom: 20px;
-  margin-right: 10px;
+  margin: 0px 10px 20px 0px;
+  
 }
 #listing-item:hover {
   transform: scale(1.01);
@@ -587,7 +571,7 @@ input.allowChange {
   position: absolute;
   left: 0%;
   bottom: 0%;
-  margin: 0px;
+  margin: 0px 0px 0px 0px;
   border-radius: 0px 5px 0px 10px;
   padding: 3px 5px;
   background-color: rgba(0, 204, 102, 0.8);
@@ -1127,6 +1111,7 @@ input[type="number"] {
     width: 100%;
     text-align: center;
     padding: 3px;
+    margin: 0px;
   }
   .offerTrueListings .listingItemImg {
     width: 100%;
