@@ -11,7 +11,7 @@ const initialState = {
   userListings: null,
   pages: 1,
   page: 1,
-  pagination: null,
+  pagination: {},
   priceFrom: 0,
   priceTo: null,
   surfaceFrom: 15,
@@ -39,8 +39,9 @@ export const getListings = createAsyncThunk(
       let max_price = url_data[4];
       let min_surface = url_data[5];
       let max_surface = url_data[6];
-      console.log(url_data);
-      let url = `/api/v1/listings?type=${type}`;
+      let page = url_data[7];
+
+      let url = `/api/v1/listings?type=${type}&page=${page}`;
 
       if (city !== undefined && city !== "") {
         url = url + `&city=${city}`;
@@ -202,6 +203,9 @@ const listingsSlice = createSlice({
     setSurfaceTo: (state, action) => {
       state.surfaceTo = action.payload;
     },
+    setPage: (state, action) => {
+      state.page = action.payload;
+    },
     resetListing: () => {
       return initialState;
     },
@@ -212,10 +216,12 @@ const listingsSlice = createSlice({
         state.loading = true;
       })
       .addCase(getListings.fulfilled, (state, action) => {
-        // eslint-disable-next-line
-        const { count, data, page, pages, pagination } = action.payload;
+        const { data, page, pages, pagination } = action.payload;
         state.loading = false;
         state.error = "";
+        state.page = page;
+        state.pages = pages;
+        state.pagination = pagination;
         state.listings = data;
       })
       .addCase(getListings.rejected, (state, action) => {
@@ -318,6 +324,7 @@ export const {
   setPriceTo,
   setSurfaceFrom,
   setSurfaceTo,
+  setPage,
 } = listingsSlice.actions;
 
 export default listingsSlice.reducer;

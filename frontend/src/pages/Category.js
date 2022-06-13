@@ -6,6 +6,7 @@ import ListingItem from "../components/ListingItem";
 import { getListings } from "../features/listings/listingsSlice";
 import Spinner from "../components/Spinner";
 import FilterComponent from "../components/FilterComponent";
+import Pagination from "../components/Pagination";
 
 const Category = () => {
   const [showFilter, setShowFilter] = useState(false);
@@ -33,6 +34,7 @@ const Category = () => {
       priceTo,
       surfaceFrom,
       surfaceTo,
+      page,
     ];
     dispatch(getListings(url_data));
   }, [
@@ -44,45 +46,50 @@ const Category = () => {
     priceTo,
     surfaceFrom,
     surfaceTo,
+    page,
   ]);
 
   return loading ? (
     <Spinner />
   ) : (
-    <div className="pageContainerCategory" style={{ overflowX: "hidden" }}>
-      <header>
-        <p className="pageHeader">
-          Nekretnine za {categoryType === "rent" ? "iznajmljivanje" : "prodaju"}
+    <>
+      <div className="pageContainerCategory" style={{ overflowX: "hidden" }}>
+        <header>
+          <p className="pageHeader">
+            Nekretnine za{" "}
+            {categoryType === "rent" ? "iznajmljivanje" : "prodaju"}
+          </p>
+        </header>
+        <p className="filter">
+          Filtriranje
+          <i
+            className="fas fa-filter"
+            onClick={() => setShowFilter(!showFilter)}
+          ></i>
         </p>
-      </header>
-      <p className="filter">
-        Filtriranje
-        <i
-          className="fas fa-filter"
-          onClick={() => setShowFilter(!showFilter)}
-        ></i>
-      </p>
-      <main>
-        <Row>
-          <FilterComponent active={showFilter} />
-        </Row>
-        <Row className="mt-4">
-          <div className="category-listing-item">
-            {listings !== null &&
-              listings.map((listing, idx) => {
-                return (
-                  <ListingItem
-                    key={listing._id}
-                    id={listing._id}
-                    data={listing}
-                    index={idx}
-                  />
-                );
-              })}
-          </div>
-        </Row>
-      </main>
-    </div>
+        <main>
+          <Row>
+            <FilterComponent active={showFilter} />
+          </Row>
+          <Row className="mt-4">
+            <div className="category-listing-item">
+              {listings !== null &&
+                listings.map((listing, idx) => {
+                  return (
+                    <ListingItem
+                      key={listing._id}
+                      id={listing._id}
+                      data={listing}
+                      index={idx}
+                    />
+                  );
+                })}
+            </div>
+          </Row>
+        </main>
+      </div>
+      <Pagination />
+    </>
   );
 };
 

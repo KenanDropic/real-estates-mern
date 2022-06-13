@@ -38,29 +38,6 @@ export const advacnedResponse = (model, populate) => async (req, res, next) => {
     query = query.select(fields);
   }
 
-  // Sort conditions
-  if (req.query.sort) {
-    const sortBy = req.query.sort.split(",").join(" ");
-    switch (sortBy) {
-      case "latest":
-        query = query.sort("-createdAt");
-        break;
-      case "oldest":
-        query = query.sort("createdAt");
-        break;
-      case "a-z":
-        query = query.sort("position");
-        break;
-      case "z-a":
-        query = query.sort("-position");
-        break;
-
-      default:
-        query.sort("-createdAt");
-        break;
-    }
-  }
-
   // Pagination
   const page = parseInt(req.query.page, 10) || 1;
   const limit = parseInt(req.query.limit, 10) || 6;
