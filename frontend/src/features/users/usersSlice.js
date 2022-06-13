@@ -100,7 +100,10 @@ export const confirmEmail = createAsyncThunk(
   "users/confirmEmail",
   async (emailToken, thunkAPI) => {
     try {
-      await axios.get(`/api/v1/auth/confirmEmail?token=${emailToken}`);
+      const confirmEmail = await axios.get(
+        `/api/v1/auth/confirmEmail?token=${emailToken}`
+      );
+      return confirmEmail;
     } catch (error) {
       return thunkAPI.rejectWithValue(errorMessage(error));
     }
@@ -112,8 +115,8 @@ export const forgotPassword = createAsyncThunk(
   "users/forgotPassword",
   async (email, thunkAPI) => {
     try {
-      await axios.post(`/api/v1/auth/forgotPassword`, email);
-      return;
+      const sending = await axios.post(`/api/v1/auth/forgotPassword`, email);
+      return true;
     } catch (error) {
       return thunkAPI.rejectWithValue(errorMessage(error));
     }

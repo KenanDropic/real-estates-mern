@@ -48,7 +48,7 @@ export const registerUser = asyncHandler(async (req, res, next) => {
 
     await user.save({ validateBeforeSave: false });
 
-    return next(new ErrorResponse("Email could not be sent"));
+    return next(new InternalServerError("Email could not be sent"));
   }
 
   sendTokenResponse(user, 201, res, `Email sent to ${user.email}`);
@@ -243,32 +243,30 @@ export const forgotPassword = asyncHandler(async (req, res, next) => {
 export const resetPassword = asyncHandler(async (req, res, next) => {
   const { resetToken } = req.query;
 
-  console.log(req.body);
+  // Get hashed token
+  const resetPasswordToken = crypto
+    .createHash("sha256")
+    .update(resetToken)
+    .digest("hex");
 
-  // // Get hashed token
-  // const resetPasswordToken = crypto
-  //   .createHash("sha256")
-  //   .update(resetToken)
-  //   .digest("hex");
+  const user = await User.findOne({
+    resetPasswordToken,
+    resetPasswordExpire: { $gt: Date.now() },
+  });
 
-  // const user = await User.findOne({
-  //   resetPasswordToken,
-  //   resetPasswordExpire: { $gt: Date.now() },
-  // });
+  if (!user) {
+    return next(new BadRequestError(`Invalid token`), 400);
+  }
 
-  // if (!user) {
-  //   return next(new BadRequestError(`Invalid token`), 400);
-  // }
+  // Set new password
+  user.password = req.body.password.password;
+  user.resetPasswordToken = undefined;
+  user.resetPasswordExpire = undefined;
 
-  // // Set new password
-  // user.password = req.body.password;
-  // user.resetPasswordToken = undefined;
-  // user.resetPasswordExpire = undefined;
+  // Snimanje usera u bazu
+  await user.save();
 
-  // // Snimanje usera u bazu
-  // await user.save();
-
-  // sendTokenResponse(user, 200, res);
+  sendTokenResponse(user, 200, res);
 });
 
 // send token as response
