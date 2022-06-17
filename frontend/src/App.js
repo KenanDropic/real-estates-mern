@@ -12,6 +12,7 @@ import {
   VerifyEmailP,
   ForgotPasswordP,
   ResetPasswordP,
+  ErrorP,
 } from "./pages/index";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -50,6 +51,7 @@ function App() {
                 element={<EditListingP />}
               />
             </Route>
+            <Route exact path="*" element={<ErrorP />} />
           </Route>
         </Routes>
         <Navbar />

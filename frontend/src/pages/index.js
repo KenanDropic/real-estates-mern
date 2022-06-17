@@ -9,3 +9,4 @@ export { default as EditListingP } from "./EditListing";
 export { default as VerifyEmailP } from "./VerifyEmail";
 export { default as ForgotPasswordP } from "./ForgotPassword";
 export { default as ResetPasswordP } from "./ResetPassword";
+export { default as ErrorP } from "./Error";
