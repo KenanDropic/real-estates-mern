@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Spinner from "../components/Spinner";
@@ -8,6 +8,7 @@ import OpenStreetMapProvider from "../providers/openStreetMapProvider";
 import { useDispatch, useSelector } from "react-redux";
 import {
   createListing,
+  resetListing,
   setDescription,
   setGeolocation,
 } from "../features/listings/listingsSlice";
@@ -20,14 +21,14 @@ const CreateListing = () => {
     types: [],
   });
   const dispatch = useDispatch();
-  const { geolocation, description, loading } = useSelector(
+  const { geolocation, description, loading, isCreated } = useSelector(
     (state) => state.listings
   );
   const {
     register,
     handleSubmit,
     //eslint-disable-next-line
-    formState: { errors },
+    formState: { errors, dirtyFields, isDirty },
     reset,
     getValues,
     setValue,
@@ -53,6 +54,14 @@ const CreateListing = () => {
       images: {},
     },
   });
+
+  useEffect(() => {
+    if (isCreated) {
+      navigate("/profile");
+      reset();
+    }
+    dispatch(resetListing());
+  }, [isCreated, dispatch, navigate, reset]);
 
   const navigate = useNavigate();
   //Geosearch leaflet

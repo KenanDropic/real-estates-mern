@@ -18,9 +18,11 @@ const Profile = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { userListings, error: listingsError } = useSelector(
-    (state) => state.listings
-  );
+  const {
+    userListings,
+    error: listingsError,
+    loading: listingsLoading,
+  } = useSelector((state) => state.listings);
   const { user, loading, error } = useSelector((state) => state.users);
 
   const {
