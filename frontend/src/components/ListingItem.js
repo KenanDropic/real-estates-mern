@@ -1,13 +1,14 @@
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-//eslint-disable-next-line
-import Spinner from "./Spinner";
+import ModalComponent from "./ModalComponent";
+import { setShowModal } from "../features/listings/listingsSlice.js";
 
-const ListingItem = ({ id, data, onDelete, edit, index }) => {
-  const { loading } = useSelector((state) => state.listings);
+const ListingItem = ({ id, data, onDelete, edit }) => {
+  const dispatch = useDispatch();
+  const { showModal } = useSelector((state) => state.listings);
   const {
-    bathroms,
+    bathrooms,
     bedrooms,
     discountedPrice,
     images,
@@ -15,28 +16,26 @@ const ListingItem = ({ id, data, onDelete, edit, index }) => {
     surface,
     address,
   } = data;
-  //eslint-disable-next-line
+
   const navigate = useNavigate();
 
   const handleClick = async (e) => {
-    //delete document
-    // if (
-    //   e.target.classList.contains("fa-trash") ||
-    //   e.target.classList.contains("deleteListing")
-    // ) {
-    //   dispatchListings({ type: "SET_SHOW_MODAL", payload: id });
-    //   //setujemo showModal state na true i proslijeđujemo id
-    // } else if (
-    //   //edit document
-    //   e.target.classList.contains("fa-edit") ||
-    //   e.target.classList.contains("editListing")
-    // ) {
-    //   dispatchListings({ type: "SET_EDIT_LISTING_ID", payload: id });
-    //   navigate(`/edit-listing/${id}`);
-    // } else {
-    //   //Proslijeđujemo korisnika na stranicu koja prikazuje kliknuti dokument zasebno i opširnije. Ruta je /listing/ i id dokumenta.
-    //   navigate(`/listing/${id}`);
-    // }
+    // delete document;
+    if (
+      e.target.classList.contains("fa-trash") ||
+      e.target.classList.contains("deleteListing")
+    ) {
+      const data = [true, id];
+      dispatch(setShowModal(data));
+    } else if (
+      //edit document
+      e.target.classList.contains("fa-edit") ||
+      e.target.classList.contains("editListing")
+    ) {
+      navigate(`/edit-listing/${id}`);
+    } else {
+      navigate(`/listings/${id}`);
+    }
   };
 
   return (
@@ -82,7 +81,7 @@ const ListingItem = ({ id, data, onDelete, edit, index }) => {
             </li>
             <li className="iconsForResponsive">
               <i className="fas fa-bath" />
-              {bathroms}
+              {bathrooms}
             </li>
           </ul>
           {onDelete && (
@@ -97,7 +96,7 @@ const ListingItem = ({ id, data, onDelete, edit, index }) => {
           )}
         </div>
 
-        {/* {showModal && <ModalComponent />} */}
+        {showModal && <ModalComponent />}
       </>
     )
   );

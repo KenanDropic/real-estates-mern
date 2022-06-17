@@ -1199,7 +1199,7 @@ input[type="number"] {
     width: 77%;
   }
   .yourListingsContainer .listingItemImg {
-    border-radius: 0px 0px 0px 10px;
+    border-radius: 10px 0px 0px 10px;
   }
   .yourListingsContainer .listingMoreInfo {
     border-radius: 10px 0px 0px 0px;

@@ -24,7 +24,10 @@ const initialState = {
   description: "",
   imageRemoved: false,
   isEdited: false,
-  isMounted: false,
+  isCreated: false,
+  isDeleted: false,
+  showModal: false,
+  listingID: null,
 };
 
 // get all listings
@@ -149,6 +152,18 @@ export const editListing = createAsyncThunk(
   }
 );
 
+// delete listing
+export const deleteListing = createAsyncThunk(
+  "listings/delete",
+  async (id, thunkAPI) => {
+    try {
+      await axiosAuth.delete(`/api/v1/listings/${id}`);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(errorMessage(error));
+    }
+  }
+);
+
 // remove listing image
 export const removeListingImage = createAsyncThunk(
   "listings/removeListingImage",
@@ -182,6 +197,9 @@ const listingsSlice = createSlice({
     resetIsEdited: (state) => {
       state.isEdited = false;
     },
+    resetIsDeleted: (state) => {
+      state.isDeleted = false;
+    },
     resetImageRemoved: (state) => {
       state.imageRemoved = false;
     },
@@ -205,6 +223,10 @@ const listingsSlice = createSlice({
     },
     setPage: (state, action) => {
       state.page = action.payload;
+    },
+    setShowModal: (state, action) => {
+      state.showModal = action.payload[0];
+      state.listingID = action.payload[1];
     },
     resetListing: () => {
       return initialState;
@@ -233,6 +255,7 @@ const listingsSlice = createSlice({
       })
       .addCase(createListing.fulfilled, (state, action) => {
         state.loading = false;
+        state.isCreated = true;
         state.error = "";
         state.listing = action.payload;
         toast.success("Listing created successfully");
@@ -240,6 +263,7 @@ const listingsSlice = createSlice({
       .addCase(createListing.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+        state.isCreated = true;
       })
       .addCase(getListing.pending, (state) => {
         state.loading = true;
@@ -298,6 +322,21 @@ const listingsSlice = createSlice({
         state.loading = false;
         state.isEdited = true;
         state.error = action.payload;
+      })
+      .addCase(deleteListing.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(deleteListing.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = "";
+        state.isDeleted = true;
+        state.showModal = false;
+        state.listingID = null;
+        toast.success("Listing deleted successfully");
+      })
+      .addCase(deleteListing.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
       });
   },
 });
@@ -325,6 +364,7 @@ export const {
   setSurfaceFrom,
   setSurfaceTo,
   setPage,
+  setShowModal,
 } = listingsSlice.actions;
 
 export default listingsSlice.reducer;
