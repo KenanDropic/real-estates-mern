@@ -1,7 +1,7 @@
 import { BadRequestError, NotFoundError } from "../utils/errorResponse.js";
 
 const notFound = (req, res, next) => {
-  return next(new ErrorResponse(`Not found - ${req.originalUrl}`), 404);
+  return next(new NotFoundError(`Not found - ${req.originalUrl}`));
 };
 
 const errorHandler = (err, req, res, next) => {
@@ -10,7 +10,7 @@ const errorHandler = (err, req, res, next) => {
   error.message = err.message;
 
   // Log to console for developer
-  console.log(err.stack.red);
+  console.log(err.stack);
 
   //Mongoose bad ObjectId
   if (err.name === "CastError") {

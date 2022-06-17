@@ -4,7 +4,6 @@ export class BadRequestError extends Error {
     this.statusCode = 400;
   }
 }
-
 export class UnAuthenticatedError extends BadRequestError {
   constructor(message) {
     super(message);
@@ -22,5 +21,11 @@ export class UnAuthorizedError extends NotFoundError {
   constructor(message) {
     super(message);
     this.statusCode = 403;
+  }
+}
+export class InternalServerError extends UnAuthorizedError {
+  constructor(message) {
+    super(message);
+    this.statusCode = 500;
   }
 }
