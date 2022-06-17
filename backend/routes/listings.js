@@ -1,6 +1,7 @@
 import express from "express";
 import {
   createListing,
+  deleteListing,
   editListing,
   getListing,
   getListings,
@@ -19,6 +20,10 @@ router
   .post(authenticate, createListing);
 router.route("/user").get(authenticate, getUserListings);
 router.route("/:id/images/:image_id").delete(authenticate, removeListingImage);
-router.route("/:id").get(getListing).put(authenticate, editListing);
+router
+  .route("/:id")
+  .get(getListing)
+  .put(authenticate, editListing)
+  .delete(authenticate, deleteListing);
 
 export default router;

@@ -158,6 +158,31 @@ export const editListing = asyncHandler(async (req, res, next) => {
   res.status(200).json({ success: true, listing });
 });
 
+// @desc    Delete Listing
+// @route   DELETE /api/v1/listings/:id
+// @access  Private
+export const deleteListing = asyncHandler(async (req, res, next) => {
+  let listing = await Listing.findById(req.params.id);
+
+  if (!listing) {
+    return next(new NotFoundError("Listing not found"));
+  }
+
+  if (req.user._id.toString() !== listing.user._id.toString()) {
+    return next(new UnAuthorizedError("Unauthorized to delete this listing"));
+  }
+
+  await Promise.all(
+    listing.cloudinary_ids.map(async (id) => {
+      await cloudinary.uploader.destroy(id);
+    })
+  );
+
+  await listing.remove();
+
+  res.status(200).json({ success: true, data: {} });
+});
+
 // @desc    Remove Listing Image
 // @route   DELETE /api/v1/listings/:id/images/:image_id
 // @access  Private
