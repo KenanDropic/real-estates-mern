@@ -63,7 +63,7 @@ const ListingItem = ({ id, data, onDelete, edit }) => {
             </li>
             <li>
               <i className="fas fa-object-group" />
-              {surface}m2
+              {surface} m2
             </li>
             {discountedPrice !== 0 && (
               <li className="icons">

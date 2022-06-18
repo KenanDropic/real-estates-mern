@@ -298,14 +298,14 @@ const CreateListing = () => {
               onClick={() => setValue("parking", true, { shouldDirty: true })}
               className={`formButton ${values.parking ? "active" : ""}`}
             >
-              Da
+              Yes
             </button>
             <button
               type="button"
               onClick={() => setValue("parking", false, { shouldDirty: true })}
               className={`formButton ${!values.parking ? "active" : ""}`}
             >
-              Ne
+              No
             </button>
           </div>
           {/* Garaža */}

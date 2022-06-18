@@ -41,7 +41,7 @@ const LandingPage = () => {
           {listings?.map((listing, idx) => (
             <SwiperSlide
               key={idx}
-              onClick={() => navigate(`/listing/${listing._id}`)}
+              onClick={() => navigate(`/listings/${listing._id}`)}
             >
               <div
                 className="swiperSlideDiv-landingPage"
