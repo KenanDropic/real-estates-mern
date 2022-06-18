@@ -9,6 +9,9 @@ export const advacnedResponse = (model, populate) => async (req, res, next) => {
   }
 
   if (req.query.category) {
+    if (req.query.category === "") {
+      return delete req.query.category;
+    }
     reqQuery.type = req.query.category; // query parameter category adding into our custom reqQuery object
   }
 
@@ -36,6 +39,12 @@ export const advacnedResponse = (model, populate) => async (req, res, next) => {
   if (req.query.select) {
     const fields = req.query.select.split(",").join(" ");
     query = query.select(fields);
+  }
+
+  // Sort - latest 5
+  if (req.query.sort) {
+    const sortBy = req.query.sort.split(",").join(" ");
+    query = query.sort(sortBy);
   }
 
   // Pagination

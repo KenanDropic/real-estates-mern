@@ -68,7 +68,7 @@ const ListingItem = ({ id, data, onDelete, edit }) => {
             {discountedPrice !== 0 && (
               <li className="icons">
                 <i className="fas fa-tag" />
-                Snižena cijena :{" "}
+                Discounted Price :{" "}
                 {/* {data?.discountedPrice
                   .toString()
                   .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}{" "}

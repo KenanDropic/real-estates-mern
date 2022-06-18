@@ -55,6 +55,12 @@ const CreateListing = () => {
     },
   });
 
+  const navigate = useNavigate();
+  //Geosearch leaflet
+  const prov = OpenStreetMapProvider();
+  const GeoSearchControlElement = SearchControl;
+
+  const values = getValues();
   useEffect(() => {
     if (isCreated) {
       navigate("/profile");
@@ -62,13 +68,6 @@ const CreateListing = () => {
     }
     dispatch(resetListing());
   }, [isCreated, dispatch, navigate, reset]);
-
-  const navigate = useNavigate();
-  //Geosearch leaflet
-  const prov = OpenStreetMapProvider();
-  const GeoSearchControlElement = SearchControl;
-
-  const values = getValues();
 
   const onSubmit = async (data) => {
     try {
@@ -101,14 +100,14 @@ const CreateListing = () => {
   ) : (
     <div className="createListingContainer">
       <header>
-        <p className="pageHeader">Kreirajte oglas</p>
+        <p className="pageHeader">Create Listing</p>
         <p
           className="go-back"
           onClick={() => {
             navigate(-1);
           }}
         >
-          Vratite se na profil <i className="fas fa-undo"></i>
+          Go Back <i className="fas fa-undo"></i>
         </p>
       </header>
       <main>
@@ -133,7 +132,7 @@ const CreateListing = () => {
               Rent
             </button>
           </div>
-          <label>Kuća/Stan</label>
+          <label>House/Apartment</label>
           <div className="formButtonsDiv">
             <input type="text" {...register("building")} />
             <button
@@ -145,7 +144,7 @@ const CreateListing = () => {
                 values.building === "house" ? "active" : ""
               }`}
             >
-              Kuća
+              House
             </button>
             <button
               type="button"
@@ -156,11 +155,11 @@ const CreateListing = () => {
                 values.building !== "house" ? "active" : ""
               }`}
             >
-              Stan
+              Apartment
             </button>
           </div>
           {/* Naziv nekretnine */}
-          <label htmlFor="name">Naziv:</label>
+          <label htmlFor="name">Name:</label>
           <input
             {...register("name", {
               required: "Polje je obavezno",
@@ -174,7 +173,7 @@ const CreateListing = () => {
           />
           <span style={{ color: "red" }}>{errors.name?.message}</span>
           {/* Grad */}
-          <label htmlFor="city">Grad:</label>
+          <label htmlFor="city">City:</label>
           <input
             {...register("city", {
               required: "Polje je obavezno",
@@ -188,7 +187,7 @@ const CreateListing = () => {
           />
           <span style={{ color: "red" }}>{errors.city?.message}</span>
           {/* Adresa */}
-          <label htmlFor="address">Adresa</label>
+          <label htmlFor="address">Address</label>
           <input
             {...register("address", {
               required: "Polje je obavezno",
@@ -201,9 +200,8 @@ const CreateListing = () => {
             name="address"
           />
           <span style={{ color: "red" }}>{errors.address?.message}</span>
-
           {/* Površina */}
-          <label htmlFor="povrsina">Površina</label>
+          <label htmlFor="povrsina">Surface</label>
           <div className="surfaceCreateListing">
             <input
               {...register("surface", {
@@ -219,12 +217,11 @@ const CreateListing = () => {
             <span>m2</span>
           </div>
           <span style={{ color: "red" }}>{errors.surface?.message}</span>
-
           {/* Broj soba i spratova */}
           <div className="numberInputs">
             <div className="groupOfNumberInputs">
               <div>
-                <label htmlFor="rooms">Broj soba</label>
+                <label htmlFor="rooms">Rooms</label>
                 <input
                   {...register("rooms", {
                     required: "Polje je obavezno",
@@ -242,7 +239,7 @@ const CreateListing = () => {
             {/* Broj spratova */}
             <div className="groupOfNumberInputs">
               <div>
-                <label htmlFor="floors">Spratovi</label>
+                <label htmlFor="floors">Floors</label>
                 <input
                   {...register("floors", {
                     min: {
@@ -260,7 +257,7 @@ const CreateListing = () => {
           <div className="numberInputs">
             <div className="groupOfNumberInputs">
               <div>
-                <label htmlFor="bathrooms">Kupatila</label>
+                <label htmlFor="bathrooms">Bathrooms</label>
                 <input
                   {...register("bathrooms", {
                     min: {
@@ -277,7 +274,7 @@ const CreateListing = () => {
 
             <div className="groupOfNumberInputs">
               <div>
-                <label htmlFor="bedrooms">Spavaće sobe</label>
+                <label htmlFor="bedrooms">Bedrooms</label>
                 <input
                   {...register("bedrooms", {
                     min: {
@@ -292,7 +289,6 @@ const CreateListing = () => {
               <span style={{ color: "red" }}>{errors.bedrooms?.message}</span>
             </div>
           </div>
-
           {/* Parking */}
           <label htmlFor="parking">Parking</label>
           <div className="formButtonsDiv">
@@ -313,7 +309,7 @@ const CreateListing = () => {
             </button>
           </div>
           {/* Garaža */}
-          <label htmlFor="garaza">Garaža</label>
+          <label htmlFor="garaza">Garage</label>
           <div className="formButtonsDiv">
             <input {...register("garage")} type="text" />
             <button
@@ -321,18 +317,18 @@ const CreateListing = () => {
               onClick={() => setValue("garage", true, { shouldDirty: true })}
               className={`formButton ${values.garage ? "active" : ""}`}
             >
-              Da
+              Yes
             </button>
             <button
               type="button"
               onClick={() => setValue("garage", false, { shouldDirty: true })}
               className={`formButton ${!values.garage ? "active" : ""}`}
             >
-              Ne
+              No
             </button>
           </div>
           {/* Namješten */}
-          <label htmlFor="furnished">Namješten</label>
+          <label htmlFor="furnished">Furnished</label>
           <div className="formButtonsDiv">
             <input {...register("furnished")} type="text" />
             <button
@@ -340,7 +336,7 @@ const CreateListing = () => {
               onClick={() => setValue("furnished", true, { shouldDirty: true })}
               className={`formButton ${values.furnished ? "active" : ""}`}
             >
-              Da
+              Yes
             </button>
             <button
               type="button"
@@ -349,11 +345,11 @@ const CreateListing = () => {
               }
               className={`formButton ${!values.furnished ? "active" : ""}`}
             >
-              Ne
+              No
             </button>
           </div>
           {/* Ponuda - sniženje*/}
-          <label htmlFor="offer">Ponuda(sniženje)</label>
+          <label htmlFor="offer">Offer(discount)</label>
           <div className="formButtonsDiv">
             <input {...register("offer")} type="text" />
             <button
@@ -361,18 +357,18 @@ const CreateListing = () => {
               onClick={() => setValue("offer", true, { shouldDirty: true })}
               className={`formButton ${values.offer ? "active" : ""}`}
             >
-              Da
+              Yes
             </button>
             <button
               type="button"
               onClick={() => setValue("offer", false, { shouldDirty: true })}
               className={`formButton ${!values.offer ? "active" : ""}`}
             >
-              Ne
+              No
             </button>
           </div>
           {/* Regularna cijena */}
-          <label htmlFor="regular">Regularna cijena</label>
+          <label htmlFor="regular">Regular price</label>
           <div className="createListingPriceDiv">
             <input
               name="regular"
@@ -388,11 +384,9 @@ const CreateListing = () => {
             KM
           </div>
           <span style={{ color: "red" }}>{errors.regularPrice?.message}</span>
-
-          {/* Snižena cijena */}
           {values.offer && (
             <>
-              <label htmlFor="discounted">Snižena cijena</label>
+              <label htmlFor="discounted"> Discounted price</label>
               <div className="createListingPriceDiv">
                 <input
                   name="discounted"
@@ -418,7 +412,7 @@ const CreateListing = () => {
             </>
           )}
           {/* Opis */}
-          <label htmlFor="textarea">Dodajte opis vašeg artikla</label>
+          <label htmlFor="textarea">Description</label>
           <textarea
             name="textarea"
             onChange={(e) => dispatch(setDescription(e.target.value))}
@@ -426,7 +420,7 @@ const CreateListing = () => {
           />
           <span style={{ color: "red" }}>{errors.description?.message}</span>
           {/* Lokacija */}
-          <label htmlFor="textarea">Lokacija</label>
+          <label htmlFor="textarea">Location</label>
           <div className="leafletContainer-createListing">
             <input type="number" step="any" name="latitude" />
             <input type="number" step="any" name="longitude" />
@@ -464,7 +458,7 @@ const CreateListing = () => {
             <span style={{ color: "red" }}>{errors.latitude?.message}</span>
           </div>
           {/* Dodavanje slika  */}
-          <label>Dodajte slike (max. 6)</label>
+          <label>Images (max. 6)</label>
           <input
             {...register("images", {
               required: "Polje je obavezno",
@@ -492,7 +486,7 @@ const CreateListing = () => {
           />
           <span style={{ color: "red" }}>{errors.images?.message}</span>
           <button type="submit" className="listing-btn">
-            Kreirajte oglas
+            Create Listing
           </button>
         </form>
       </main>

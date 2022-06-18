@@ -176,9 +176,9 @@ const SignIn = () => {
                           "Password must contain at least 6 characters,uppercase and lowercase letter,special character and one number",
                       },
                       onChange: (e) => checkPasswordPolicies(e),
-                      onFocus: () => setShowPolicies(true),
-                      onBlur: () => setShowPolicies(false),
                     })}
+                    onFocus={() => setShowPolicies(true)}
+                    onBlur={() => setShowPolicies(false)}
                     type={showPassword ? "text" : "password"}
                   />
                   <div

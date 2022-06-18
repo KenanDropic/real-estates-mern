@@ -49,7 +49,7 @@ const FilterComponent = ({ active }) => {
         <Row>
           <Col>
             <Form.Label htmlFor="keywords">
-              <i className="fas fa-key" /> Pretražite
+              <i className="fas fa-key" /> Search
             </Form.Label>
             <Form.Control
               name="keywords"
@@ -62,7 +62,7 @@ const FilterComponent = ({ active }) => {
           <Col>
             <Form.Label htmlFor="city">
               <i className="fas fa-building" />
-              Grad
+              City
             </Form.Label>
             <Form.Select
               name="city"
@@ -90,7 +90,7 @@ const FilterComponent = ({ active }) => {
 
         <Row className="mt-2">
           <Form.Label htmlFor="price">
-            <i className="fas fa-euro-sign" /> Cijena
+            <i className="fas fa-euro-sign" /> Price
           </Form.Label>
           <Col>
             <Form.Control
@@ -102,7 +102,7 @@ const FilterComponent = ({ active }) => {
                 },
               })}
               type="number"
-              placeholder="Od"
+              placeholder="From"
 
               // style={{ textAlign: "left" }}
             />
@@ -117,7 +117,7 @@ const FilterComponent = ({ active }) => {
                 },
               })}
               type="number"
-              placeholder="Do"
+              placeholder="To"
 
               // style={{ textAlign: "left" }}
             />
@@ -130,7 +130,7 @@ const FilterComponent = ({ active }) => {
         <Row className="mt-2">
           <Form.Label htmlFor="surface">
             <i className="fas fa-vector-square" />
-            Površina
+            Surface
           </Form.Label>
           <Col>
             <Form.Control
@@ -142,7 +142,7 @@ const FilterComponent = ({ active }) => {
                 },
               })}
               type="number"
-              placeholder="Od"
+              placeholder="From"
             />
           </Col>
           <Col>
@@ -155,7 +155,7 @@ const FilterComponent = ({ active }) => {
                 },
               })}
               type="number"
-              placeholder="Do"
+              placeholder="To"
             />
           </Col>
           <span style={{ color: "red" }}>

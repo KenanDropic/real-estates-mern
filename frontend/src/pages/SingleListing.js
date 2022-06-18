@@ -34,7 +34,7 @@ const SingleListing = () => {
             <Swiper
               modules={[Navigation, Pagination, Scrollbar, A11y]}
               pagination={{ clickable: true }}
-              slidesPerView={2}
+              slidesPerView={listing.images > 1 ? 2 : 1}
               scrollbar={{ draggable: true }}
               style={{ width: "100%" }}
             >
@@ -63,20 +63,20 @@ const SingleListing = () => {
             </p>
 
             <p className="singleListing-type">
-              {listing?.type === "rent" ? "Iznajmljivanje" : "Prodaja"}
+              {listing?.type === "rent" ? "Rent" : "Sale"}
             </p>
           </div>
           {/* Snižena cijena - ako je uopšte dodano */}
           {listing?.offer && (
             <div className="discountedPrice">
               <i className="fas fa-percentage" />
-              <span>Snižena cijena - </span>
+              <span>Discounted Price - </span>
               <span>{listing.discountedPrice}KM</span>
             </div>
           )}
           {/* Adresa oglasa */}
           <p className="title" style={{ marginTop: "50px" }}>
-            <span>Informacije</span>
+            <span>Informations</span>
           </p>
           <div className="singleListing-address">
             <i className="fas fa-map-marked-alt"></i>
@@ -92,17 +92,17 @@ const SingleListing = () => {
               ) : (
                 <i className="fas fa-building"></i>
               )}
-              Tip objekta -
+              Building type -
             </span>
             <span className="grayText">
-              {listing?.building === "house" ? "Kuća" : "Stan"}
+              {listing?.building === "house" ? " Kuća" : " Stan"}
             </span>
           </div>
           {/* Površina/Broj soba */}
           <div className="roomsAndSurface">
             <div className="rooms">
               <i className="fas fa-door-open"></i>
-              <span>Broj Soba</span>
+              <span>Rooms</span>
               <small>{listing?.rooms}</small>
             </div>
             <div className="singleListing-surface">
@@ -111,7 +111,7 @@ const SingleListing = () => {
                 height="25px"
                 className="surface-icon"
               />
-              <span>Površina</span>
+              <span>Surface</span>
               <small>{listing?.surface}</small>
             </div>
           </div>
@@ -119,22 +119,22 @@ const SingleListing = () => {
           <div className="bedroomsAndBathrooms">
             <div className="bedrooms">
               <i className="fas fa-bath"></i>
-              <span>Kupatila</span>
+              <span>Bathrooms</span>
               <small>{listing?.bathrooms}</small>
             </div>
             <div className="bathrooms">
               <i className="fas fa-bed"></i>
-              <span>Spavaće sobe</span>
+              <span>Bedrooms</span>
               <small>{listing?.bedrooms}</small>
             </div>
           </div>
           {/* Ostalo; garaža,parking... */}
           <p className="title" style={{ marginTop: "50px" }}>
-            <span>Ostalo</span>
+            <span>Other</span>
           </p>
           <div className="ostalo">
             <div className="singleListing-grage">
-              <small>Garaža</small>
+              <small>Garage</small>
               {listing?.garage ? (
                 <i className="fas fa-check" />
               ) : (
@@ -150,7 +150,7 @@ const SingleListing = () => {
               )}
             </div>
             <div className="singleListing-furnished">
-              <small>Namješten</small>
+              <small>Furnished</small>
               {listing?.furnished ? (
                 <i className="fas fa-check" />
               ) : (
@@ -160,14 +160,14 @@ const SingleListing = () => {
           </div>
           {/* OPIS */}
           <p className="title" style={{ marginTop: "50px" }}>
-            <span>Opis</span>
+            <span>Description</span>
           </p>
           <div className="descriptionDiv">
             <span>{listing?.description}</span>
           </div>
 
           <p className="title" style={{ marginTop: "50px" }}>
-            <span> Lokacija </span>
+            <span> Location </span>
           </p>
           <div className="leafletContainer">
             <MapContainer
@@ -191,20 +191,20 @@ const SingleListing = () => {
 
           <>
             <p className="title" style={{ marginTop: "15px" }}>
-              <span>Informacije o vlasniku</span>
+              <span>Listing owner</span>
             </p>
             <div className="listingOwner">
               <span>
-                Oglas kreirao: <strong>{listing?.user.name}</strong>
+                Created By: <strong>{listing?.user.name}</strong>
               </span>
               <br />
               <span>
-                Telefonski kontakt:
+                Mobile contact:
                 <strong> {listing?.user.phone}</strong>
               </span>
               <br />
               <span>
-                Mail kontakt:
+                Mail contact:
                 <strong> {listing?.user.email}</strong>
               </span>
             </div>

@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getCurrentUser } from "../../features/users/usersSlice";
+import { toast } from "react-toastify";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -35,7 +36,8 @@ const Navbar = () => {
         </li>
         <li
           className={matchPath("/ponude") ? "active" : "" ? "active" : ""}
-          onClick={() => navigate("/ponude")}
+          // onClick={() => navigate("/ponude")}
+          onClick={() => toast.info("Offers page is still in progress")}
         >
           <i className="fas fa-tag"></i>
           <span className="text">Offers</span>

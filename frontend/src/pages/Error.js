@@ -8,12 +8,12 @@ const ErrorS = () => {
       <Row className="text-center" style={{ margin: "15% 0 0 0" }}>
         <Image src={img} alt="not-found" />
         <h3>Ohh! 404</h3>
-        <p>Traženu stranicu nije moguće pronaći</p>
+        <p>Page Not Found</p>
         <Link
           to="/"
           style={{ textDecoration: "none", color: "#000", fontWeight: "700" }}
         >
-          Vratite se nazad
+          Go Back
         </Link>
       </Row>
     </Container>

@@ -19,10 +19,10 @@ const ModalComponent = () => {
   return (
     <Modal show={showModal}>
       <Modal.Header className="d-flex justify-content-between">
-        <span style={{ fontSize: "20px", fontWeight: "700" }}>Upozorenje!</span>
+        <span style={{ fontSize: "20px", fontWeight: "700" }}>Warning!</span>
       </Modal.Header>
       <Modal.Body>
-        <span>Da li ste sigurni da želite obrisati oglas?</span>
+        <span>Are you sure you want to delete listing?</span>
       </Modal.Body>
       <Modal.Footer>
         <button

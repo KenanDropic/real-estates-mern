@@ -214,10 +214,10 @@ const SignUp = () => {
                         message:
                           "Password must contain at least 6 characters,uppercase and lowercase letter,special character and one number",
                       },
-                      onFocus: () => setShowPolicies(true),
-                      onBlur: () => setShowPolicies(false),
                       onChange: (e) => checkPasswordPolicies(e),
                     })}
+                    onFocus={() => setShowPolicies(true)}
+                    onBlur={() => setShowPolicies(false)}
                     type={showPassword ? "text" : "password"}
                   />
                   <div
@@ -274,7 +274,9 @@ const SignUp = () => {
                   </div>
                 </div>
                 <span style={{ color: "red" }}>{errors.password?.message}</span>
-                <Link to="/forgotPassword" className="forgotPassword">Forgot Password</Link>
+                <Link to="/forgotPassword" className="forgotPassword">
+                  Forgot Password
+                </Link>
                 <Row style={{ padding: "0px 30%" }}>
                   <Button type="submit" className="btn  btn-primary">
                     Sign Up

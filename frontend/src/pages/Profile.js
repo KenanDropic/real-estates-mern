@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-// import VerifyEmailWarning from "./SendEmailVerification";
 import Spinner from "../components/Spinner";
 import { Alert, Col, Row } from "react-bootstrap";
 import { logout, updateUser, upload } from "../features/users/usersSlice";
@@ -21,7 +20,7 @@ const Profile = () => {
   const {
     userListings,
     error: listingsError,
-    loading: listingsLoading,
+    isDeleted,
   } = useSelector((state) => state.listings);
   const { user, loading, error } = useSelector((state) => state.users);
 
@@ -50,9 +49,7 @@ const Profile = () => {
       };
       reset(defaults);
     }
-
-    // eslint-disable-next-line
-  }, [user]);
+  }, [user, isDeleted, dispatch, reset]);
 
   const onSubmit = async (data) => {
     dispatch(updateUser(data));
@@ -245,7 +242,7 @@ const Profile = () => {
           </form>
           <Link to="/create-listing" className="createListingLink">
             <i className="fas fa-home" />
-            <span>Sell or rent your house/apartment</span>
+            <span>Sell or rent your real estate</span>
             <i className="fas fa-arrow-right" />
           </Link>
         </div>

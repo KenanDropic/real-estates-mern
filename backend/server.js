@@ -7,6 +7,7 @@ import { notFound, errorHandler } from "./middleware/error.js";
 import hpp from "hpp";
 import mongoSanitze from "express-mongo-sanitize";
 import xss from "xss-clean";
+import path from "path";
 
 // load env vars
 dotenv.config();
@@ -21,9 +22,7 @@ import listingsRoutes from "./routes/listings.js";
 // Express init
 const app = express();
 
-if (process.env.NODE_ENV === "development") {
-  app.use(morgan("dev"));
-}
+const __dirname = path.resolve();
 
 // body parser
 app.use(express.json({ limit: "40mb" }));
@@ -36,9 +35,19 @@ app.use(xss());
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/listings", listingsRoutes);
 
-app.get("/api/v1", (req, res) => {
-  res.send("API is running");
-});
+if (process.env.NODE_ENV === "development") {
+  app.use(morgan("dev"));
+  app.get("/api/v1", (req, res) => {
+    res.send("API is running");
+  });
+}
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "/frontend/build")));
+  app.get("*", (req, res) =>
+    res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"))
+  );
+}
 
 // not found & other erros handler
 app.use(notFound);

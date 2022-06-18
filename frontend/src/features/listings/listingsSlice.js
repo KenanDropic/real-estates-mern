@@ -43,8 +43,14 @@ export const getListings = createAsyncThunk(
       let min_surface = url_data[5];
       let max_surface = url_data[6];
       let page = url_data[7];
+      let limit = url_data[8];
+      let sort = url_data[9];
 
-      let url = `/api/v1/listings?type=${type}&page=${page}`;
+      let url = `/api/v1/listings?page=${page}`;
+
+      if (type !== undefined && type !== "") {
+        url = url + `&type=${type}`;
+      }
 
       if (city !== undefined && city !== "") {
         url = url + `&city=${city}`;
@@ -68,6 +74,14 @@ export const getListings = createAsyncThunk(
 
       if (max_surface !== "" && max_surface !== null) {
         url = url + `&surface[lte]=${max_surface}`;
+      }
+
+      if (limit !== "" && limit !== undefined) {
+        url = url + `&limit=${limit}`;
+      }
+
+      if (sort !== "" && sort !== undefined) {
+        url = url + `&sort=${sort}`;
       }
 
       const { data } = await axios.get(url);

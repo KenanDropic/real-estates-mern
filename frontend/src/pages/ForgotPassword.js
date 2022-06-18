@@ -41,9 +41,14 @@ const ForgotPassword = () => {
     }
   }, [isEmailSent, navigate, dispatch, reset]);
 
-  const onSubmit = async (data) => {
+  // fix loading error
+  const onSubmit = (data) => {
     dispatch(forgotPassword(data));
   };
+
+  if (loading) {
+    return <Spinner />;
+  }
 
   return loading ? (
     <Spinner />

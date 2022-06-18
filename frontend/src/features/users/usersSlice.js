@@ -115,6 +115,7 @@ export const forgotPassword = createAsyncThunk(
   "users/forgotPassword",
   async (email, thunkAPI) => {
     try {
+      // eslint-disable-next-line
       const sending = await axios.post(`/api/v1/auth/forgotPassword`, email);
       return true;
     } catch (error) {
@@ -147,7 +148,8 @@ const usersSlice = createSlice({
     logout: (state) => {
       localStorage.removeItem("token");
       toast.success("User logout successfully");
-      return initialState;
+      state.token = "";
+      state.user = null;
     },
     resetEmailSentState: (state) => {
       state.isEmailSent = false;

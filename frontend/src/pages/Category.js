@@ -56,12 +56,11 @@ const Category = () => {
       <div className="pageContainerCategory" style={{ overflowX: "hidden" }}>
         <header>
           <p className="pageHeader">
-            Nekretnine za{" "}
-            {categoryType === "rent" ? "iznajmljivanje" : "prodaju"}
+            Real estates for {categoryType === "rent" ? "rent" : "sale"}
           </p>
         </header>
         <p className="filter">
-          Filtriranje
+        Filtering
           <i
             className="fas fa-filter"
             onClick={() => setShowFilter(!showFilter)}
@@ -80,7 +79,6 @@ const Category = () => {
                       key={listing._id}
                       id={listing._id}
                       data={listing}
-                      index={idx}
                     />
                   );
                 })}

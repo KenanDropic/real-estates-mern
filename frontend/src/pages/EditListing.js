@@ -14,6 +14,7 @@ import {
   setDescription,
   setGeolocation,
   resetListing,
+  resetImageRemoved,
 } from "../features/listings/listingsSlice";
 import { toast } from "react-toastify";
 import { Alert } from "react-bootstrap";
@@ -186,9 +187,9 @@ const EditListing = () => {
     isMounted && (
       <div className="createListingContainer">
         <header>
-          <p className="pageHeader">Ažurirajte oglas</p>
+          <p className="pageHeader">Update Listing</p>
           <p className="go-back" onClick={() => navigate(-1)}>
-            Vratite se na profil <i className="fas fa-undo"></i>
+            Go Back <i className="fas fa-undo"></i>
           </p>
         </header>
         <main>
@@ -218,7 +219,7 @@ const EditListing = () => {
               </button>
             </div>
             {/* Kuća/Stan */}
-            <label>Kuća/Stan</label>
+            <label>House/Apartment</label>
             <div className="formButtonsDiv">
               <input type="text" {...register("building")} />
               <button
@@ -230,7 +231,7 @@ const EditListing = () => {
                   values.building === "house" ? "active" : ""
                 }`}
               >
-                Kuća
+                House
               </button>
               <button
                 type="button"
@@ -241,11 +242,11 @@ const EditListing = () => {
                   values.building !== "house" ? "active" : ""
                 }`}
               >
-                Stan
+                Apartment
               </button>
             </div>
             {/* Naziv nekretnine */}
-            <label htmlFor="name">Naziv:</label>
+            <label htmlFor="name">Name:</label>
             <input
               {...register("name", {
                 required: "Polje je obavezno",
@@ -259,7 +260,7 @@ const EditListing = () => {
             />
             <span style={{ color: "red" }}>{errors.name?.message}</span>
             {/* Grad */}
-            <label htmlFor="city">Grad:</label>
+            <label htmlFor="city">City:</label>
             <input
               {...register("city", {
                 required: "Polje je obavezno",
@@ -273,7 +274,7 @@ const EditListing = () => {
             />
             <span style={{ color: "red" }}>{errors.city?.message}</span>
             {/* Adresa */}
-            <label htmlFor="address">Adresa</label>
+            <label htmlFor="address">Address</label>
             <input
               {...register("address", {
                 required: "Polje je obavezno",
@@ -288,7 +289,7 @@ const EditListing = () => {
             <span style={{ color: "red" }}>{errors.address?.message}</span>
 
             {/* Površina */}
-            <label htmlFor="povrsina">Površina</label>
+            <label htmlFor="povrsina">Surface</label>
             <div className="surfaceCreateListing">
               <input
                 {...register("surface", {
@@ -308,7 +309,7 @@ const EditListing = () => {
             {/* Broj soba i spratova */}
             <div className="numberInputs">
               <div className="groupOfNumberInputs">
-                <label htmlFor="rooms">Broj soba</label>
+                <label htmlFor="rooms">Rooms</label>
                 <input
                   {...register("rooms", {
                     required: "Polje je obavezno",
@@ -325,7 +326,7 @@ const EditListing = () => {
               {/* Ako je prodaja,prikaži opciju broj spratova */}
               {values.type === "sell" && (
                 <div className="groupOfNumberInputs">
-                  <label htmlFor="floors">Spratovi</label>
+                  <label htmlFor="floors">Floors</label>
                   <input
                     {...register("floors", {
                       min: {
@@ -341,7 +342,7 @@ const EditListing = () => {
             </div>
             <div className="numberInputs">
               <div className="groupOfNumberInputs">
-                <label htmlFor="bathrooms">Kupatila</label>
+                <label htmlFor="bathrooms">Bathrooms</label>
                 <input
                   {...register("bathrooms")}
                   type="number"
@@ -350,7 +351,7 @@ const EditListing = () => {
               </div>
               <span style={{ color: "red" }}>{errors.bathroms?.message}</span>
               <div className="groupOfNumberInputs">
-                <label htmlFor="bedrooms">Spavaće sobe</label>
+                <label htmlFor="bedrooms">Bedrooms</label>
                 <input
                   {...register("bedrooms")}
                   type="number"
@@ -369,7 +370,7 @@ const EditListing = () => {
                 onClick={() => setValue("parking", true, { shouldDirty: true })}
                 className={`formButton ${values.parking ? "active" : ""}`}
               >
-                Da
+                Yes
               </button>
               <button
                 type="button"
@@ -378,11 +379,11 @@ const EditListing = () => {
                 }
                 className={`formButton ${!values.parking ? "active" : ""}`}
               >
-                Ne
+                No
               </button>
             </div>
             {/* Garaža */}
-            <label htmlFor="garaza">Garaža</label>
+            <label htmlFor="garaza">Garage</label>
             <div className="formButtonsDiv">
               <input {...register("garage")} type="text" />
               <button
@@ -390,18 +391,18 @@ const EditListing = () => {
                 onClick={() => setValue("garage", true, { shouldDirty: true })}
                 className={`formButton ${values.garage ? "active" : ""}`}
               >
-                Da
+                Yes
               </button>
               <button
                 type="button"
                 onClick={() => setValue("garage", false, { shouldDirty: true })}
                 className={`formButton ${!values.garage ? "active" : ""}`}
               >
-                Ne
+                No
               </button>
             </div>
             {/* Namješten */}
-            <label htmlFor="furnished">Namješten</label>
+            <label htmlFor="furnished">Furnished</label>
             <div className="formButtonsDiv">
               <input {...register("furnished")} type="text" />
               <button
@@ -411,7 +412,7 @@ const EditListing = () => {
                 }
                 className={`formButton ${values.furnished ? "active" : ""}`}
               >
-                Da
+                Yes
               </button>
               <button
                 type="button"
@@ -420,11 +421,11 @@ const EditListing = () => {
                 }
                 className={`formButton ${!values.furnished ? "active" : ""}`}
               >
-                Ne
+                No
               </button>
             </div>
             {/* Ponuda - sniženje*/}
-            <label htmlFor="offer">Ponuda(sniženje)</label>
+            <label htmlFor="offer">Offer(discount)</label>
             <div className="formButtonsDiv">
               <input {...register("offer")} type="text" />
               <button
@@ -432,18 +433,18 @@ const EditListing = () => {
                 onClick={() => setValue("offer", true, { shouldDirty: true })}
                 className={`formButton ${values.offer ? "active" : ""}`}
               >
-                Da
+                Yes
               </button>
               <button
                 type="button"
                 onClick={() => setValue("offer", false, { shouldDirty: true })}
                 className={`formButton ${!values.offer ? "active" : ""}`}
               >
-                Ne
+                No
               </button>
             </div>
             {/* Regularna cijena */}
-            <label htmlFor="regular">Regularna cijena</label>
+            <label htmlFor="regular">Regular price</label>
             <div className="createListingPriceDiv">
               <input
                 name="regular"
@@ -457,7 +458,7 @@ const EditListing = () => {
                 type="number"
               />
               {values.type === "rent" ? (
-                <span>KM / Mjesečno</span>
+                <span>KM / Monthly</span>
               ) : (
                 <span>KM</span>
               )}
@@ -467,7 +468,7 @@ const EditListing = () => {
             {/* Snižena cijena */}
             {values.offer && (
               <>
-                <label htmlFor="discounted">Snižena cijena</label>
+                <label htmlFor="discounted">Discounted price</label>
                 <div className="createListingPriceDiv">
                   <input
                     name="discounted"
@@ -486,7 +487,7 @@ const EditListing = () => {
                     type="number"
                   />
                   {values.type === "rent" ? (
-                    <span>KM / Mjesečno</span>
+                    <span>KM / Monthly</span>
                   ) : (
                     <span>KM</span>
                   )}
@@ -497,14 +498,14 @@ const EditListing = () => {
               </>
             )}
             {/* Opis */}
-            <label>Dodajte opis vašeg artikla</label>
+            <label>Description</label>
             <textarea
               onChange={(e) => dispatch(setDescription(e.target.value))}
               value={description}
             />
             <span style={{ color: "red" }}>{errors.description?.message}</span>
             {/* Lokacija - geolokacija */}
-            <label htmlFor="textarea">Lokacija</label>
+            <label htmlFor="textarea">Location</label>
             <div className="leafletContainer-createListing" name="geolocation">
               <input type="number" step="any" name="latitude" />
               <input type="number" step="any" name="longitude" />
@@ -553,7 +554,7 @@ const EditListing = () => {
               htmlFor=""
               style={{ marginTop: "20px", marginBottom: "0px" }}
             >
-              Odabrane slike
+              Choosen Images
             </label>
             <div className="uploaded-images">
               {listing?.images.length !== 0 &&
@@ -571,9 +572,7 @@ const EditListing = () => {
 
             {/* Dodavanje slika  */}
             <>
-              <label>
-                Dodajte slike (max. {`${6 - listing.images.length}`})
-              </label>
+              <label>Images (max. {`${6 - listing.images.length}`})</label>
               <input
                 {...register("images")}
                 type="file"
@@ -585,7 +584,7 @@ const EditListing = () => {
             </>
 
             <button type="submit" className="listing-btn">
-              Ažurirajte oglas
+              Update Listing
             </button>
           </form>
         </main>

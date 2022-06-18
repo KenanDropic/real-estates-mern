@@ -1175,7 +1175,6 @@ input[type="number"] {
   .offerTrueListings {
     grid-auto-rows: minmax(190px, 1fr);
   }
-
   .category-listing-item.listingMoreInfo {
     height: 30px;
     width: 100%;
@@ -1189,33 +1188,7 @@ input[type="number"] {
   .offerTrueListings .listingMoreInfo i {
     margin: 0px 10px;
   }
-  .yourListingsContainer {
-    grid-auto-rows: minmax(250px, 1fr);
-    grid-template-columns: repeat(1, 1fr);
-  }
-  .yourListingsContainer .listingItemImg,
-  .yourListingsContainer .listingMoreInfo,
-  .yourListingsContainer .listingPrice {
-    width: 77%;
-  }
-  .yourListingsContainer .listingItemImg {
-    border-radius: 10px 0px 0px 10px;
-  }
-  .yourListingsContainer .listingMoreInfo {
-    border-radius: 10px 0px 0px 0px;
-  }
-  .yourListingsContainer .listingPrice {
-    bottom: 0%;
-    border-bottom-right-radius: 0px;
-  }
-  .deleteListing,
-  .editListing {
-    top: 0%;
-    right: 0%;
-  }
-  .editListing {
-    right: 8%;
-  }
+  
   .createListingLink {
     width: 90%;
   }
@@ -1280,6 +1253,14 @@ input[type="number"] {
     padding: 0rem 0.75rem;
   }
 }
+@media (max-width: 600px) {
+  .editListing{
+    right: -15%;
+  }
+  .deleteListing{
+    right: -14%;
+  }
+}
 @media (max-width: 480px) {
   .landing-page-paragraf{
     font-size: 1.2rem;
@@ -1296,6 +1277,28 @@ input[type="number"] {
   }
   .category-title{
     font-size: 1.3rem;
+  }
+  .yourListingsContainer {
+    grid-auto-rows: minmax(250px, 1fr);
+    grid-template-columns: repeat(1, 1fr);
+  }
+  .yourListingsContainer .listingItemImg,
+  .yourListingsContainer .listingMoreInfo,
+  .yourListingsContainer .listingPrice {
+    width: 90%;
+  }
+  .deleteListing,
+  .editListing {
+    top: 0%;
+    right: 0%;
+  }
+  .editListing {
+    top: 10%;
+    right: -1%;
+  }
+  .listingItem{
+    background-color: transparent;
+    margin: 15px 0px;
   }
  
 }
@@ -1336,15 +1339,9 @@ input[type="number"] {
     margin: 0px 5px;
   }
 
-  .yourListingsContainer {
-    grid-template-columns: repeat(1fr);
-    grid-auto-rows: minmax(200px, 1fr);
-  }
-  .editListing {
-    right: 9%;
-  }
   .createListingContainer {
     margin: 1.5rem;
+    overflow-x: hidden;
   }
   .createListingLink {
     width: 100%;
