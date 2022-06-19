@@ -174,7 +174,8 @@ const SignUp = () => {
                       pattern: {
                         value:
                           /^[+][0-9]{3}[\s-.]?[6][1-5][\s-.]?[0-9]{3}[\s-.]?[0-9]{3,4}$/,
-                        message: "Please enter a valid number format",
+                        message:
+                          "Please enter a valid number format. Example: +38761322513",
                       },
                     })}
                     type="tel"
