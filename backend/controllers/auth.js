@@ -216,8 +216,11 @@ export const forgotPassword = asyncHandler(async (req, res, next) => {
   // Snimanje usera u bazu
   await user.save({ validateBeforeSave: false });
 
-  // Create reset url
-  const resetUrl = `${req.protocol}://localhost:3000/resetPassword?resetToken=${resetToken}`;
+  // Create reset url - for frontend in development mode
+  // const resetUrl = `${req.protocol}://localhost:3000/resetPassword?resetToken=${resetToken}`;
+
+  // Create rest url - for frontend in production mode
+  const resetUrl = `${req.protocol}://real-estates-mern.herokuapp.com/resetPassword?resetToken=${resetToken}`;
 
   // sending email via sendEmail fnction
   try {
