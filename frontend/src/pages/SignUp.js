@@ -120,7 +120,7 @@ const SignUp = () => {
   return loading ? (
     <Spinner />
   ) : (
-    <Container fluid="md" className="mt-5 pb-5">
+    <Container fluid="md" className="mt-5 sign-form">
       <Row className="align-items-center text-center">
         <Col xs="12" sm="12">
           <p className="pageHeader">Welcome Back</p>

@@ -1309,6 +1309,9 @@ input[type="number"] {
  
 }
 @media (max-width: 450px) {
+  .sign-form{
+    padding-bottom: 80px;
+  }
   .pageHeader {
     font-size: 1.3rem;
   }
