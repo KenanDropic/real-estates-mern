@@ -1260,6 +1260,9 @@ input[type="number"] {
   .deleteListing{
     right: -14%;
   }
+  .footerForgotPassword {
+    font-size: 12px ;
+  }
 }
 @media (max-width: 480px) {
   .landing-page-paragraf{
@@ -1300,6 +1303,9 @@ input[type="number"] {
     background-color: transparent;
     margin: 15px 0px;
   }
+ 
+  
+    
  
 }
 @media (max-width: 450px) {
