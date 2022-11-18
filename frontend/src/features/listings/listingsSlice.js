@@ -34,6 +34,7 @@ const initialState = {
 export const getListings = createAsyncThunk(
   "listings/get",
   async (url_data, thunkAPI) => {
+    // const [type,search_word,city,min_price,max_price,min_surface]
     try {
       let type = url_data[0];
       let search_word = url_data[1];
