@@ -6,7 +6,7 @@
 
 ### Application deployed to Heroku
 
-### Link - [Real Estates](https://real-estates-mern.herokuapp.com/)
+
 
 ---
 
