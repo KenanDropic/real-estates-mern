@@ -4,8 +4,11 @@
 
 ---
 
-### Application deployed to Heroku
+### Application deployed to Render
+https://tradeshop.onrender.com
 
+### Note
+Since application is deployed on Render using free plan here is what you need to know: "A free plan will spin down after 15 minutes of inactivity, and the next request will spin it back up, which can take around 30 seconds".
 
 
 ---
